@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.log
+verify/frames/*.jpg
+!verify/frames/README.md
