@@ -1,0 +1,5 @@
+PASS  red   low-hue circle: expected (120,100) -> got (120,100) area=6230
+PASS  red   wrap-hue square: expected (500,120) -> got (500,120) area=8100
+PASS  blue  square: expected (320,300) -> got (320,300) area=10000
+PASS  green circle: expected (160,380) -> got (160,380) area=6230
+ALL PASS

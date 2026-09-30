@@ -3,5 +3,18 @@ __pycache__/
 .venv/
 venv/
 *.log
+
+# runtime artifacts from the course scripts (regenerate, don't commit)
+live_view_*.jpg
+color_track_*.jpg
+gesture_*.jpg
+calib_frame.jpg
+homography.npy
+*.task
+
+# frames are curated into verify/frames — ignore the rest
 verify/frames/*.jpg
+!verify/frames/live_view_2.jpg
+!verify/frames/color_track_00.jpg
+!verify/frames/color_track_01.jpg
 !verify/frames/README.md

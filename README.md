@@ -23,9 +23,10 @@ Companion slide deck: *Pi to Robot Vision Workshop* (ZAN Tech BD).
 - Raspberry Pi (4B / 5 / Zero 2 W) + microSD + 5 V PSU
 - Pi Camera Module (any libcamera-supported unit; tested: IMX219 / Camera v2)
 - Arduino Nano (CH340 clones appear as `/dev/ttyUSB0`, FTDI as `/dev/ttyACM0`)
-- 4-DOF arm kit: 4× servo (base, shoulder, elbow, gripper), separate 5–6 V ≥2 A supply
+- 4-DOF arm kit: 4× servo (base, shoulder, elbow, gripper), separate 5–6 V ≥3 A supply
 - LED + 330 Ω resistor, jumper wires, breadboard
-- Props: one red and one blue object (cube/ball), green cubes for the finale
+- One colored glove for the gesture module (yellow by default)
+- Props: one red and one blue object, green cubes for the finale
 
 ## The protocol (used from module 2 onward)
 
@@ -37,10 +38,18 @@ Nano → Pi : ERR\n                                    bad or out-of-range comma
 115200 baud, 8N1, one message per line
 ```
 
-## Tested on
+Design rule of the whole course: **the brain lives on the Pi, the Nano stays thin.**
+Modules 5–7 are pure Python — the firmware never changes while you tune behaviors.
 
-- Raspberry Pi OS **Debian 13 (trixie)**, kernel 6.18, Python 3.13, OpenCV 4.10
-- Arduino Nano (CH340, old bootloader) over `/dev/ttyUSB0`
-- Camera: IMX219 via libcamera/Picamera2
+## Verified on real hardware
 
-Verified task-by-task — transcripts and saved frames in [`verify/`](verify/).
+Raspberry Pi 4B · Raspberry Pi OS trixie · Python 3.13 · OpenCV 4.10 · Arduino Nano
+(CH340, old bootloader — upload FQBN `arduino:avr:nano:cpu=atmega328old`) · IMX219 via
+libcamera/Picamera2. Every module's run transcript: [`verify/`](verify/). Two bench
+findings worth knowing:
+
+- **mediapipe 1.x SIGILLs on the Pi 4's Cortex-A72** — the gesture module therefore
+  ships a dependency-free OpenCV **glove engine** (default) plus the MediaPipe Tasks
+  engine for Pi 5.
+- **Only one program opens the camera sensor** — if a camera app (e.g. a dashboard) is
+  running, `camera.py` falls back to its MJPEG stream automatically (`CAMERA_URL`).
