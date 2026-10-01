@@ -67,12 +67,20 @@ python3 -c 'import cv2, serial, gpiozero; print("cv2", cv2.__version__, "| pyser
 
 Expected on Raspberry Pi OS (trixie): `cv2 4.10.0 | pyserial 3.5 | gpiozero OK`.
 
+Verified on the bench Pi:
+
+![library check](images/m1-02-libs.png)
+
 ## 6. Enable the camera (needed from module 4)
 
 ```bash
 sudo raspi-config            # Interfaces → Camera → enable, then reboot
 rpicam-hello --list-cameras  # after reboot: must list your camera (e.g. imx219)
 ```
+
+Verified on the bench Pi (IMX219 = Camera v2):
+
+![list cameras](images/m1-03-camera.png)
 
 If your camera doesn't appear: power off, reseat the ribbon (blue tab toward the
 Ethernet/USB side, contacts toward the HDMI side), and check it clicked in on both ends.
@@ -100,7 +108,15 @@ python3 blink.py
 ```
 
 The LED blinks twice per second. Stop with **Ctrl+C** (the script turns the LED off and
-exits cleanly). The whole program:
+exits cleanly).
+
+Verified on the bench Pi — the script ran clean and exited via Ctrl+C, and
+sampling the GPIO17 line *while it blinked* shows it flipping `lo`/`hi` at the
+0.5 s cadence (proof at the pad level, no LED needed):
+
+![blink run + GPIO17 toggling live](images/m1-04-blink.png)
+
+The whole program:
 
 ```python
 from gpiozero import LED

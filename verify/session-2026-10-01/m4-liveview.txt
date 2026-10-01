@@ -1,0 +1,15 @@
+[0:58:09.912732914] [2870]  INFO Camera camera_manager.cpp:340 libcamera v0.7.2+rpt20260817
+[0:58:09.967006317] [2875] ERROR V4L2 v4l2_device.cpp:410 'imx219 10-0010': Unable to set controls: Device or resource busy
+[0:58:09.968671656] [2875]  INFO RPI pipeline_base.cpp:1133 Using configuration file '/usr/share/libcamera/pipeline/rpi/vc4/rpi_apps.yaml'
+[0:58:10.046210693] [2875]  INFO IPAProxy ipa_proxy.cpp:184 Using tuning file /usr/share/libcamera/ipa/rpi/vc4/imx219.json
+[0:58:10.063483825] [2875]  INFO Camera camera_manager.cpp:223 Adding camera '/base/soc/i2c0mux/i2c@1/imx219@10' for pipeline handler rpi/vc4
+[0:58:10.063609733] [2875]  INFO RPI vc4.cpp:445 Registered camera /base/soc/i2c0mux/i2c@1/imx219@10 to Unicam device /dev/media0 and ISP device /dev/media2
+[0:58:10.067872210] [2870]  INFO Camera camera.cpp:1021 Pipeline handler in use by another process
+Camera __init__ sequence did not complete.
+camera: MJPEG stream (http://localhost:8000/stream?w=640&h=480&fps=15)
+saved live_view_0.jpg
+saved live_view_1.jpg
+saved live_view_2.jpg
+saved live_view_3.jpg
+saved live_view_4.jpg
+done

@@ -1,0 +1,1 @@
+pi adm dialout cdrom sudo audio video plugdev games users netdev lpadmin gpio i2c spi render input

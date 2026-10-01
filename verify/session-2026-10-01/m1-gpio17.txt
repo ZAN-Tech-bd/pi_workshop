@@ -1,0 +1,16 @@
+t=300ms 17: ip    pd | lo // GPIO17 = input
+t=600ms 17: op -- pn | hi // GPIO17 = output
+t=900ms 17: op -- pn | hi // GPIO17 = output
+t=1200ms 17: op -- pn | lo // GPIO17 = output
+t=1500ms 17: op -- pn | hi // GPIO17 = output
+t=1800ms 17: op -- pn | hi // GPIO17 = output
+t=2100ms 17: op -- pn | lo // GPIO17 = output
+t=2400ms 17: op -- pn | lo // GPIO17 = output
+t=2700ms 17: op -- pn | hi // GPIO17 = output
+t=3000ms 17: op -- pn | lo // GPIO17 = output
+t=3300ms 17: op -- pn | lo // GPIO17 = output
+t=3600ms 17: op -- pn | hi // GPIO17 = output
+t=3900ms 17: op -- pn | hi // GPIO17 = output
+t=4200ms 17: op -- pn | lo // GPIO17 = output
+t=4500ms 17: op -- pn | hi // GPIO17 = output
+t=4800ms 17: op -- pn | hi // GPIO17 = output

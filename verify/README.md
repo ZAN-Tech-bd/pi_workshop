@@ -14,6 +14,21 @@ old bootloader, `/dev/ttyUSB0`) + Pi Camera v2 (IMX219). Date: 2026-09-30 (UTC).
 | [`verify-homography.txt`](verify-homography.txt) | 7 — PickBot | 4 pixel corners → exact mm; center sanity (155,0) — PASS |
 | [`frames/`](frames/) | 4 | real camera frames through the MJPEG stream (night-time bench scene) |
 
+## Re-verified 2026-10-01 — with per-step screenshots
+
+Every module was re-run end-to-end on the same bench from a clean clone.
+Terminal screenshots for each micro-step live in
+[`docs/images/`](../docs/images/) (embedded at the matching steps of each
+module guide); the raw transcripts behind them are in
+[`session-2026-10-01/`](session-2026-10-01/). Outcome:
+
+- all seven modules behaved exactly as documented (see the session table);
+- one real bug surfaced and was fixed: `pickbot.py --simulate` crashed on the
+  first frame with no cube in view — `detect()` returns `(None, 0)` and the
+  loop unpacked it blindly. After the fix the loop runs its watch window
+  cleanly, and a synthetic rig (fake camera → green square) proved the full
+  pixels→mm→IK→pick-sequence loop five times over in simulation.
+
 ## Verified live vs pending hardware
 
 **Verified live (software + serial end-to-end):** OS setup, library installs, LED
@@ -26,4 +41,5 @@ capture, color pipeline, both example brains, IK and homography math.
 - servo motion / smooth ramps / calibration offsets (arm frame + servos + supply)
 - glove gestures live in daylight (selftest passed; bench was dark, no glove)
 - PickBot full pick-run (needs the assembled rig + the 3 calibration steps in
-  docs/07-pickbot.md — homography.npy on the bench Pi currently holds EXAMPLE values)
+  docs/07-pickbot.md — homography.npy on the bench Pi currently holds EXAMPLE
+  values; the loop itself is now simulation-proven, see session-2026-10-01)

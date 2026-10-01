@@ -45,8 +45,12 @@ Modules 5–7 are pure Python — the firmware never changes while you tune beha
 
 Raspberry Pi 4B · Raspberry Pi OS trixie · Python 3.13 · OpenCV 4.10 · Arduino Nano
 (CH340, old bootloader — upload FQBN `arduino:avr:nano:cpu=atmega328old`) · IMX219 via
-libcamera/Picamera2. Every module's run transcript: [`verify/`](verify/). Two bench
-findings worth knowing:
+libcamera/Picamera2. Every module's run transcript: [`verify/`](verify/). Re-verified
+end-to-end on 2026-10-01 with a **screenshot for every micro-step**:
+[`docs/images/`](docs/images/) — embedded at the matching steps of each module guide,
+raw transcripts in [`verify/session-2026-10-01/`](verify/session-2026-10-01/)
+(that session also caught and fixed a crash in `pickbot.py --simulate`, see
+[`docs/07-pickbot.md`](docs/07-pickbot.md)). Two bench findings worth knowing:
 
 - **mediapipe 1.x SIGILLs on the Pi 4's Cortex-A72** — the gesture module therefore
   ships a dependency-free OpenCV **glove engine** (default) plus the MediaPipe Tasks

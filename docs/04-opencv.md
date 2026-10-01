@@ -37,6 +37,16 @@ python3 live_view.py
   window. Copy them to your laptop (`scp pi@raspberrypi.local:workshop/04_opencv/*.jpg .`)
   to see what the camera sees.
 
+Verified on the bench Pi — including the designed fallback in action: the
+camera dashboard was holding the sensor, so `camera.py` switched to its MJPEG
+stream automatically and still delivered all five frames:
+
+![live view, headless](images/m4-02-liveview.png)
+
+One of the five real frames it saved (night-time bench scene):
+
+![live view frame](images/m4-live-view-frame.jpg)
+
 Two facts that surprise everyone once (slide 32 notes): OpenCV uses **BGR**, not RGB; and
 a frame is just a NumPy array `(height, width, 3)`.
 
@@ -82,12 +92,30 @@ python3 color_track.py --color red --seconds 10
 Each second it prints `green center=(312, 240) area=8412` (or `not detected`), and
 headless saves annotated snapshots `color_track_00.jpg …`.
 
+The synthetic selftest `python3 test_pipeline.py` checks the same `detect()`
+against exact expected centers for red (both hue ranges), blue and green:
+
+![pipeline selftest](images/m4-01-pipeline.png)
+
+Verified live on the bench Pi — no green object on the night bench, so you see
+the honest `not detected` branch; the annotated snapshots still prove capture
+and overlay:
+
+![color tracking live](images/m4-03-colortrack.png)
+
+![annotated snapshot](images/m4-color-track-frame.jpg)
+
 ## 6. Tuning under real light ([`hsv_tune.py`](../code/04_opencv/hsv_tune.py))
 
 ```bash
 python3 hsv_tune.py               # desktop/VNC: trackbars + live mask window
 python3 hsv_tune.py --headless    # SSH: prints mask pixels + center per frame
 ```
+
+Verified on the bench Pi (one stat line per 0.5 s, empty mask with the green
+range on a cube-less night bench — exactly what the tuner should report):
+
+![hsv tune headless](images/m4-04-hsvtune.png)
 
 Move H/S/V min/max trackbars until **only your object is white in the mask** — then copy
 those numbers into the `RANGES` table at the top of `color_track.py`. Ten minutes of

@@ -87,6 +87,12 @@ ssh pi@raspberrypi.local
 ~/.local/bin/arduino-cli upload  -p /dev/ttyUSB0 --fqbn arduino:avr:nano ~/workshop/02_uart/arduino_echo
 ```
 
+Verified on the bench Pi (CH340 Nano, old bootloader — note the `:cpu=atmega328old`):
+
+![compile the echo sketch](images/m2-01-compile.png)
+
+![upload the echo sketch](images/m2-02-upload.png)
+
 Nano notes:
 
 - CH340 clones (our kit) appear as **`/dev/ttyUSB0`**; FTDI boards as `/dev/ttyACM0`.
@@ -123,6 +129,10 @@ received: ACK:J,90,45,120,30
 sent:     H
 received: ACK:H
 ```
+
+Verified on the bench Pi — byte-for-byte the expected output:
+
+![UART round trip](images/m2-03-send.png)
 
 **Troubleshooting**
 

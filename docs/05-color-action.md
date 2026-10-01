@@ -24,6 +24,11 @@ python3 color_action.py --selftest   # synthetic frames through the SAME brain
 code and the real serial link, and prints `selftest: PASS` when red fired action 1 and
 blue action 2. Run it first — it proves the brain before you blame the camera.
 
+Verified on the bench Pi — 18 commands over the real USB-serial link to the
+Nano, every single one answered `OK`:
+
+![color action selftest](images/m5-01-selftest.png)
+
 ## 2. How it decides (the interesting 20 lines)
 
 1. Every frame (~5 fps is plenty), [`see()`](../code/05_color_action/color_action.py)

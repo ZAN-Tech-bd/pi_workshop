@@ -32,6 +32,10 @@ python3 calibrate_homography.py --px 102,88 540,92 548,410 96,402 \
 # -> homography.npy ; the sanity line should name a plausible workspace point
 ```
 
+Verified on the bench Pi — exact mm at all four corners, center sanity spot on:
+
+![homography selftest](images/m7-02-homography.png)
+
 The numbers above are examples — every team measures its own four points. A
 homography is exact for a flat table + fixed camera; that's the whole trick.
 
@@ -40,6 +44,11 @@ homography is exact for a flat table + fixed camera; that's the whole trick.
 - Edit `L1, L2, Z_BASE` at the top of [`ik.py`](../code/07_pickbot/ik.py) from a
   ruler: shoulder→elbow, elbow→gripper, pivot height over the table.
 - `python3 ik.py` → the ik→fk round-trip must print **PASS** for every point.
+
+Verified on the bench Pi — four targets OK, out-of-reach and singularity
+rejected:
+
+![ik selftest](images/m7-01-ik.png)
 - Tune `GRIP_OPEN/GRIP_CLOSED/HOME/BIN/Z_PICK` with module 3's `calibrate.py`.
 
 ## 4. Run it
@@ -48,6 +57,22 @@ homography is exact for a flat table + fixed camera; that's the whole trick.
 python3 pickbot.py --simulate      # full brain, moves printed not sent
 python3 pickbot.py                 # live — hand on the servo supply switch
 ```
+
+Verified on the bench Pi (2026-10-01 session) — with a **finding**: the first
+cube-less frame crashed the original loop (`detect()` returns `(None, 0)` and
+the result was unpacked blindly). Fixed in
+[`pickbot.py`](../code/07_pickbot/pickbot.py) and re-verified two ways:
+
+1. real camera, no cube in view — the fixed loop now runs its full watch window
+   and exits cleanly (`done — 0 cube(s) picked`):
+
+   ![pickbot simulate, empty bench](images/m7-03-simulate.png)
+
+2. a synthetic rig (a fake camera feeding frames with a green square through
+   the **unchanged** loop) drives the entire brain — pixels → mm → IK → the
+   7-command pick sequence — five cycles, `done — 5 cube(s) picked`:
+
+   ![pickbot synthetic rig, full loop](images/m7-04-simrig.png)
 
 The loop only acts after the cube is **stable for 10 frames** (slide 39), solves IK,
 runs approach → grip → lift → bin → release → home with every step **waiting for OK**,

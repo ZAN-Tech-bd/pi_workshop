@@ -50,6 +50,11 @@ python3 gesture_control.py --engine glove --glove-color red
 python3 gesture_control.py --dry-run             # print commands, don't send
 ```
 
+Verified on the bench Pi — blob classifier 4/4 (fist/palm/pinch/point) and all
+four command sequences answered `OK` by the Nano:
+
+![gesture selftest](images/m6-01-selftest.png)
+
 ## 3. MediaPipe engine (Pi 5 path), for reference
 
 ```bash

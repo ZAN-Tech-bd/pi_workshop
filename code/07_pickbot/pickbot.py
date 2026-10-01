@@ -73,11 +73,12 @@ def main():
             frame = cam.read()
             if frame is None:
                 continue
-            (cx, cy), area = detect(mask_for(frame, COLOR))
+            found, area = detect(mask_for(frame, COLOR))
 
-            if cx is None:
+            if found is None:                 # detect() -> (None, 0) when empty
                 streak = 0
                 continue
+            cx, cy = found
             streak += 1
             if streak < STABLE_FRAMES:        # anti-flicker guard (slide 39)
                 continue

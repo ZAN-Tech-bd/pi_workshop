@@ -1,0 +1,26 @@
+[0:59:12.587734925] [2917]  INFO Camera camera_manager.cpp:340 libcamera v0.7.2+rpt20260817
+[0:59:12.639708877] [2921] ERROR V4L2 v4l2_device.cpp:410 'imx219 10-0010': Unable to set controls: Device or resource busy
+[0:59:12.641232215] [2921]  INFO RPI pipeline_base.cpp:1133 Using configuration file '/usr/share/libcamera/pipeline/rpi/vc4/rpi_apps.yaml'
+[0:59:12.711708932] [2921]  INFO IPAProxy ipa_proxy.cpp:184 Using tuning file /usr/share/libcamera/ipa/rpi/vc4/imx219.json
+[0:59:12.728060912] [2921]  INFO Camera camera_manager.cpp:223 Adding camera '/base/soc/i2c0mux/i2c@1/imx219@10' for pipeline handler rpi/vc4
+[0:59:12.728151079] [2921]  INFO RPI vc4.cpp:445 Registered camera /base/soc/i2c0mux/i2c@1/imx219@10 to Unicam device /dev/media0 and ISP device /dev/media2
+[0:59:12.731865573] [2917]  INFO Camera camera.cpp:1021 Pipeline handler in use by another process
+Camera __init__ sequence did not complete.
+camera: MJPEG stream (http://localhost:8000/stream?w=640&h=480&fps=15)
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0
+mask pixels=     0  center=None  area=0

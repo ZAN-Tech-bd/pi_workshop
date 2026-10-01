@@ -64,6 +64,10 @@ ssh pi@raspberrypi.local
 ~/.local/bin/arduino-cli upload -p /dev/ttyUSB0 --fqbn arduino:avr:nano:cpu=atmega328old ~/workshop/03_arm/arm_firmware
 ```
 
+Verified on the bench Pi:
+
+![arm firmware compile + upload](images/m3-01-upload.png)
+
 ("new" Nanos/Unos: drop the `:cpu=atmega328old`. `not in sync: resp=0x00` during upload
 means you need it — that's this kit.)
 
@@ -88,6 +92,11 @@ J,90,90,90        -> ERR
 HELLO             -> ERR
 done
 ```
+
+Verified on the bench Pi (servo supply off — the replies alone prove the
+protocol, exactly as described below):
+
+![arm protocol test](images/m3-02-armtest.png)
 
 With the arm powered you'll also **see** each ramp move. Without servos attached, the
 replies alone prove the protocol side — that's how we verified it before assembly.
