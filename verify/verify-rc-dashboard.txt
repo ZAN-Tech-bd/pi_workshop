@@ -1,0 +1,15 @@
+== mode manual:
+{"ok": true, "mode": "manual"}
+== cmd F:
+{"ok": true, "sent": "F"}
+== cmd S:
+{"ok": true, "sent": "S"}
+== status:
+mode: manual | last cmd: S | serial_ok: True | fps: 1.0
+   06:03:20  TX S
+   06:03:20  TX F
+   06:03:20  mode -> manual
+   06:03:17  camera up: MJPEG stream (http://localhost:8000/stream?w=640&h=480&fps=15)
+   06:03:16  serial: link OK
+== snapshot:
+200 image/jpeg 29330B

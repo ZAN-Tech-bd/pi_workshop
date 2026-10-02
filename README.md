@@ -17,6 +17,7 @@ Companion slide deck: *Pi to Robot Vision Workshop* (ZAN Tech BD).
 | 5 | Example A: color → action | [`code/05_color_action/`](code/05_color_action/) · [`docs/05-color-action.md`](docs/05-color-action.md) | new | Red → arm action 1, blue → action 2 | — |
 | 6 | Example B: gesture → command | [`code/06_gestures/`](code/06_gestures/) · [`docs/06-gestures.md`](docs/06-gestures.md) | new | Fist/palm/pinch/point steer the arm | — |
 | 7 | PickBot finale | [`code/07_pickbot/`](code/07_pickbot/) · [`docs/07-pickbot.md`](docs/07-pickbot.md) | 35–41 | Full see→pick→place loop | 60-second relay |
+| 8 | RC Color Pilot | [`code/08_rc_car/`](code/08_rc_car/) · [`docs/08-rc-car.md`](docs/08-rc-car.md) | new | Vision-driven RC car: 6 colors → 6 directions + dashboard (:8081) | Color Rally |
 
 ## Kit list
 

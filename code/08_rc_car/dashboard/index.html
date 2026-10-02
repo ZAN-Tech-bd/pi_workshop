@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC Color Pilot — 6-color vision policy</title>
+<style>
+  :root {
+    --bg: #0b0f17; --panel: #121826; --panel2: #0e1420; --border: #1e2740;
+    --text: #e7ecf5; --muted: #8b96ad; --accent: #22d3ee; --accent2: #7c3aed;
+    --ok: #34d399; --warn: #fbbf24; --err: #f87171;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    background: radial-gradient(1200px 600px at 80% -10%, #16213c 0%, var(--bg) 55%);
+    color: var(--text); min-height: 100vh;
+  }
+  header {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 16px 26px; border-bottom: 1px solid var(--border);
+    background: rgba(18,24,38,.75); backdrop-filter: blur(8px);
+    position: sticky; top: 0; z-index: 10; flex-wrap: wrap;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .logo {
+    width: 38px; height: 38px; border-radius: 10px; font-size: 20px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: grid; place-items: center; box-shadow: 0 0 18px rgba(34,211,238,.35);
+  }
+  h1 { font-size: 1.1rem; font-weight: 600; letter-spacing: .3px; }
+  h1 small { display: block; font-size: .68rem; color: var(--muted); font-weight: 400; }
+  .pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px;
+    border-radius: 999px; font-size: .74rem; font-weight: 600;
+    border: 1px solid var(--border); background: var(--panel2);
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+  .pill.ok .dot { background: var(--ok); box-shadow: 0 0 8px var(--ok); animation: pulse 2s infinite; }
+  .pill.err .dot { background: var(--err); }
+  .pill.warn .dot { background: var(--warn); }
+  @keyframes pulse { 50% { opacity: .45; } }
+  a.navlink { color: var(--accent); font-size: .74rem; text-decoration: none; border: 1px solid var(--border); padding: 6px 12px; border-radius: 999px; }
+  main { max-width: 1240px; margin: 0 auto; padding: 22px; display: grid;
+         grid-template-columns: 1fr 330px; gap: 18px; }
+  @media (max-width: 960px) { main { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+    padding: 16px; overflow: hidden;
+  }
+  .card h2 { font-size: .8rem; color: var(--muted); text-transform: uppercase;
+             letter-spacing: .8px; margin-bottom: 10px; }
+  .video { position: relative; }
+  .video img { width: 100%; display: block; border-radius: 10px; background: #000; min-height: 200px; }
+  .see {
+    position: absolute; left: 12px; bottom: 12px; display: flex; align-items: center;
+    gap: 10px; background: rgba(11,15,23,.82); border: 1px solid var(--border);
+    padding: 8px 14px; border-radius: 999px; font-weight: 600; font-size: .95rem;
+  }
+  .chip { width: 16px; height: 16px; border-radius: 5px; background: #333; }
+  .see small { color: var(--muted); font-weight: 400; }
+  .stack { display: grid; gap: 14px; }
+  .modes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .modes button, .pad button {
+    font: inherit; font-weight: 700; color: var(--text); cursor: pointer;
+    background: var(--panel2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 8px; transition: .15s; user-select: none;
+    touch-action: none;
+  }
+  .modes button.active {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #06121c; border-color: transparent; box-shadow: 0 0 16px rgba(34,211,238,.35);
+  }
+  .pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .pad button { padding: 16px 6px; font-size: 1rem; }
+  .pad button small { display: block; font-size: .58rem; color: var(--muted); font-weight: 500; }
+  .pad button:active, .pad button.held {
+    background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #06121c;
+  }
+  .pad button.stop { border-color: rgba(248,113,113,.5); color: var(--err); }
+  table.policy { width: 100%; border-collapse: collapse; font-size: .8rem; }
+  table.policy td { padding: 6px 4px; border-bottom: 1px solid var(--border); }
+  table.policy td.k { color: var(--accent); font-weight: 700; width: 34px; }
+  table.policy td:first-child { display: flex; align-items: center; gap: 8px; }
+  .swatch { width: 12px; height: 12px; border-radius: 4px; display: inline-block; }
+  ul#events { list-style: none; font-size: .74rem; color: var(--muted);
+              font-family: ui-monospace, Consolas, monospace; }
+  ul#events li { padding: 3px 0; border-bottom: 1px dashed var(--border); }
+  input[type=range] { width: 100%; accent-color: var(--accent); }
+  .hint { font-size: .72rem; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo">🏎️</div>
+    <h1>RC Color Pilot<small>6-color vision policy · Pi sees · Nano drives</small></h1>
+  </div>
+  <div class="pills">
+    <span class="pill" id="p-mode"><span class="dot"></span>MODE auto</span>
+    <span class="pill" id="p-cam"><span class="dot"></span>camera…</span>
+    <span class="pill" id="p-ser"><span class="dot"></span>serial…</span>
+    <span class="pill" id="p-fps"><span class="dot"></span>0 fps</span>
+    <a class="navlink" href="http://raspberrypi.local:8000/" target="_blank">Camera ↗</a>
+    <a class="navlink" href="http://raspberrypi.local:8080/" target="_blank">Arm Twin ↗</a>
+  </div>
+</header>
+
+<main>
+  <div class="card video">
+    <h2>What the policy sees</h2>
+    <img src="/stream" alt="live camera">
+    <div class="see"><span class="chip" id="chip"></span>
+      <span id="seeing">waiting…</span><small id="streak"></small></div>
+  </div>
+
+  <div class="stack">
+    <div class="card">
+      <h2>Mode</h2>
+      <div class="modes">
+        <button id="m-auto" class="active" onclick="setMode('auto')">🤖 AUTO — vision drives</button>
+        <button id="m-manual" onclick="setMode('manual')">🎮 MANUAL — you drive</button>
+      </div>
+      <p class="hint">AUTO: hold a colored card in view (10+ frames) and the policy
+      drives. MANUAL: the D-pad below sends the same RC-101 keys the phone app
+      uses. The car stops by itself if commands stop (firmware fail-safe).</p>
+    </div>
+
+    <div class="card">
+      <h2>Teleop (manual mode)</h2>
+      <div class="pad">
+        <button data-k="G" onpointerdown="pk(this)" onpointerup="rk(this)">G<small>front-left</small></button>
+        <button data-k="F" onpointerdown="pk(this)" onpointerup="rk(this)">F<small>forward</small></button>
+        <button data-k="I" onpointerdown="pk(this)" onpointerup="rk(this)">I<small>front-right</small></button>
+        <button data-k="L" onpointerdown="pk(this)" onpointerup="rk(this)">L<small>left</small></button>
+        <button class="stop" data-k="S" onclick="send('S')">S<small>STOP</small></button>
+        <button data-k="R" onpointerdown="pk(this)" onpointerup="rk(this)">R<small>right</small></button>
+        <button data-k="H" onpointerdown="pk(this)" onpointerup="rk(this)">H<small>back-left</small></button>
+        <button data-k="B" onpointerdown="pk(this)" onpointerup="rk(this)">B<small>backward</small></button>
+        <button data-k="J" onpointerdown="pk(this)" onpointerup="rk(this)">J<small>back-right</small></button>
+      </div>
+      <p class="hint">Cruise speed <span id="spd">5</span>/9
+        <input type="range" min="1" max="9" value="5" oninput="speed(this.value)"></p>
+    </div>
+
+    <div class="card">
+      <h2>The policy (6 colors → 6 directions)</h2>
+      <table class="policy" id="policy"></table>
+    </div>
+
+    <div class="card">
+      <h2>Events</h2>
+      <ul id="events"><li>booting…</li></ul>
+    </div>
+  </div>
+</main>
+
+<script>
+const MAP = [
+  ["red",    "F", "forward",    "#e5394f"],
+  ["blue",   "B", "backward",   "#3d6bff"],
+  ["green",  "L", "left",       "#37c837"],
+  ["yellow", "R", "right",      "#e6c519"],
+  ["orange", "G", "front-left", "#ff8a2a"],
+  ["purple", "I", "front-right", "#a64dff"],
+];
+const tbl = document.getElementById("policy");
+tbl.innerHTML = MAP.map(([c,k,n,col]) =>
+  `<tr><td><span class="swatch" style="background:${col}"></span>${c}</td>` +
+  `<td class="k">${k}</td><td>${n}</td></tr>`).join("") +
+  `<tr><td><span class="swatch" style="background:#333"></span>none</td>` +
+  `<td class="k">S</td><td>stop</td></tr>`;
+
+function pill(id, cls, text) {
+  const el = document.getElementById(id);
+  el.className = "pill " + cls; el.textContent = text;
+}
+async function send(k) { try { await fetch("/api/cmd?k=" + k); } catch(e){} }
+function pk(b){ b.classList.add("held"); send(b.dataset.k); }
+function rk(b){ b.classList.remove("held"); send("S"); }
+async function setMode(m){
+  await fetch("/api/mode?m=" + m);
+  document.getElementById("m-auto").className = m==="auto" ? "active":"";
+  document.getElementById("m-manual").className = m==="manual" ? "active":"";
+}
+async function speed(n){ document.getElementById("spd").textContent = n;
+  await fetch("/api/speed?n=" + n); }
+
+async function tick(){
+  try {
+    const s = await (await fetch("/api/status")).json();
+    pill("p-mode", s.mode==="auto" ? "ok":"warn", "MODE " + s.mode);
+    pill("p-cam", s.camera && s.camera!=="?" ? "ok":"err", s.camera==="?" ? "camera…" : "camera ok");
+    pill("p-ser", s.serial_ok ? "ok":"err", s.serial_ok ? "serial ok" : "serial off (dry)");
+    pill("p-fps", "", s.fps + " fps");
+    const chip = document.getElementById("chip");
+    const row = MAP.find(m => m[0] === s.color);
+    chip.style.background = row ? row[3] : "#333";
+    document.getElementById("seeing").textContent =
+      s.color ? `${s.color} → ${row ? row[1] : "?"} ${s.direction}` : "nothing → S stop";
+    document.getElementById("streak").textContent = s.streak ? `streak ${s.streak}` : "";
+    document.getElementById("events").innerHTML =
+      s.events.map(e => `<li>${e}</li>`).join("");
+  } catch(e) {}
+}
+setInterval(tick, 700); tick();
+</script>
+</body>
+</html>

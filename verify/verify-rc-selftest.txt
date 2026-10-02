@@ -1,0 +1,8 @@
+classifier: red     -> red (F forward) OK
+classifier: blue    -> blue (B backward) OK
+classifier: green   -> green (L left) OK
+classifier: yellow  -> yellow (R right) OK
+classifier: orange  -> orange (G front-left) OK
+classifier: purple  -> purple (I front-right) OK
+link PING: OK
+selftest: PASS

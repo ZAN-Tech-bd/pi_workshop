@@ -30,6 +30,8 @@ RANGES = {
     "red":   [((0, 80, 80), (10, 255, 255)),        # red part 1 (low hues)
               ((170, 80, 80), (179, 255, 255))],    # red part 2 (wrap-around)
     "yellow": [((26, 80, 80), (34, 255, 255))],     # the gesture glove
+    "orange": [((11, 80, 80), (25, 255, 255))],     # module 8: rc car cards
+    "purple": [((131, 80, 80), (169, 255, 255))],   # module 8: rc car cards
 }
 
 MIN_AREA = 500  # ignore blobs smaller than this many pixels
