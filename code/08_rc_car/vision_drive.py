@@ -29,7 +29,10 @@ import time
 import cv2
 import numpy as np
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "04_opencv"))
+_HERE = os.path.dirname(os.path.abspath(__file__))
+# repo layout: ../04_opencv — flat deploy (Desktop/rc-dashboard): same folder
+sys.path.insert(0, os.path.join(_HERE, "..", "04_opencv"))
+sys.path.insert(0, _HERE)
 from camera import Camera                    # noqa: E402
 from color_track import detect, mask_for     # noqa: E402
 
@@ -71,24 +74,35 @@ def annotate(frame, color, center):
 
 
 class SerialLink:
-    """Sends single-char commands (RC-101 style); PING proves the link."""
+    """Sends single-char commands (RC-101 style); PING proves the link.
+
+    Degrades to dry mode (ser=None) when a port exists but is BUSY — e.g. the
+    Arm Twin service holds /dev/ttyUSB0 — so the dashboard still runs
+    vision-only instead of crashing.
+    """
+
+    PORTS = ("/dev/ttyACM0", "/dev/ttyUSB0")
 
     def __init__(self, dry_run=False):
         self.dry = dry_run
         self.ser = None
         if not dry_run:
             import serial
-            for port in ("/dev/ttyACM0", "/dev/ttyUSB0"):
+            for port in self.PORTS:
                 if os.path.exists(port):
-                    self.ser = serial.Serial(port, 115200, timeout=2)
-                    time.sleep(2)
-                    break
-            if self.ser is None:
+                    try:
+                        self.ser = serial.Serial(port, 115200, timeout=2)
+                        time.sleep(2)
+                        break
+                    except Exception as e:
+                        print(f"serial {port}: {e} — running dry")
+                        self.ser = None
+            if self.ser is None and not any(os.path.exists(p) for p in self.PORTS):
                 raise SystemExit("no Arduino found — use --dry-run")
 
     def ping(self):
         if not self.ser:
-            return True
+            return self.dry        # dry-run pretends OK; a real-but-busy link says OFF
         self.ser.write(b"PING\n")
         return self.ser.readline().decode().strip() == "OK"
 

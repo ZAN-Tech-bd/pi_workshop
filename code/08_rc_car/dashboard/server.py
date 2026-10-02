@@ -30,8 +30,11 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import cv2
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(HERE, ".."))
+# import paths: works in the repo layout AND in a flat deploy
+# (~/Desktop/rc-dashboard, installed by install.sh with local copies)
 sys.path.insert(0, os.path.join(HERE, "..", "..", "04_opencv"))
+sys.path.insert(0, os.path.join(HERE, ".."))
+sys.path.insert(0, HERE)
 from camera import Camera                 # noqa: E402
 from vision_drive import DIRECTIONS, STABLE_FRAMES, SerialLink, annotate, classify  # noqa: E402
 
