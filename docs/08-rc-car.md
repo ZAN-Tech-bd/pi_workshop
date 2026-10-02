@@ -88,6 +88,14 @@ python3 vision_drive.py                # live: cards drive the car
 python3 dashboard/server.py            # the dashboard (below)
 ```
 
+Verified on the bench Pi (2026-10-02 session) — classifier 6/6 and every key
+transmitted. The serial leg honestly reports `NO REPLY` here: the only Nano
+attached runs the **arm** firmware (module 3) and is held by the arm dashboard,
+which is exactly the two-Nano warning above in action. With a car Nano flashed
+and free, the same run answers `link PING: OK` and ends `selftest: PASS`:
+
+![vision_drive selftest on the bench](images/m8-04-selftest.png)
+
 ## The dashboard — http://raspberrypi.local:8081/
 
 Third member of the Pi dashboard family (8000 camera · 8080 Arm Twin · 8081 this):
@@ -99,6 +107,38 @@ Third member of the Pi dashboard family (8000 camera · 8080 Arm Twin · 8081 th
   cruise-speed slider (1–9). MANUAL sends the same RC-101 keys as the app
 - the policy table and a live event log (what was sent, when)
 - serial not connected? It still runs as a vision demo ("serial off (dry)")
+
+Installed as `rc-dashboard.service` (auto-starts on boot), source of truth in
+[`code/08_rc_car/`](../code/08_rc_car/), deployed copy in `~/Desktop/rc-dashboard/`
+(`dashboard/install.sh` refreshes it):
+
+![rc-dashboard service](images/m8-01-service.png)
+
+**Live on the bench Pi — 2026-10-02.** AUTO mode: the video panel shows the
+annotated frame (the policy's verdict drawn on it), the status pills read
+`camera ok · serial off (dry) · ~8.5 fps`, and the event log has already
+recorded `policy: red -> F`, `policy: orange -> G`, `policy: nothing -> S`:
+
+![RC dashboard in AUTO](images/m8-dash-auto.png)
+
+Switched to MANUAL over the REST API (`/api/mode?m=manual`) — the teleop D-pad
+lights up, "you drive":
+
+![RC dashboard in MANUAL](images/m8-dash-manual.png)
+
+It is a phone-first layout, too:
+
+![RC dashboard, phone window](images/m8-dash-phone.png)
+
+One annotated frame straight from the `/snapshot.jpg` endpoint (what the policy
+actually sees):
+
+![annotated snapshot](images/m8-snapshot.jpg)
+
+And the whole state machine readable over one REST call — mode, verdict,
+streak, fps, camera source and the event log in a single JSON document:
+
+![REST status](images/m8-02-api.png)
 
 REST API for experiments: `/api/status`, `/api/cmd?k=F`, `/api/mode?m=manual`,
 `/api/speed?n=5`, `/snapshot.jpg`, `/stream` (MJPEG).

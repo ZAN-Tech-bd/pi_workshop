@@ -1,0 +1,7 @@
+$ systemctl status rc-dashboard (excerpt)
+● rc-dashboard.service - RC Color Pilot - 6-color vision policy dashboard
+     Loaded: loaded (/etc/systemd/system/rc-dashboard.service; enabled; preset: enabled)
+     Active: active (running) since Fri 2026-10-02 06:26:03 BST; 5min ago
+ Invocation: be360fb0cd584105a9d6d5998fa8e014
+   Main PID: 2610 (python3)
+      Tasks: 11 (limit: 8796)

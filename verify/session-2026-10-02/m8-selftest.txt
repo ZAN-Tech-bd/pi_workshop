@@ -1,0 +1,16 @@
+serial /dev/ttyUSB0: [Errno 16] could not open port /dev/ttyUSB0: [Errno 16] Device or resource busy: '/dev/ttyUSB0' — running dry
+classifier: red     -> red (F forward) OK
+classifier: blue    -> blue (B backward) OK
+classifier: green   -> green (L left) OK
+classifier: yellow  -> yellow (R right) OK
+classifier: orange  -> orange (G front-left) OK
+classifier: purple  -> purple (I front-right) OK
+link PING: NO REPLY
+TX F (dry-run)
+TX B (dry-run)
+TX L (dry-run)
+TX R (dry-run)
+TX G (dry-run)
+TX I (dry-run)
+TX S (dry-run)
+selftest: FAIL

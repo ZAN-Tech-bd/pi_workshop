@@ -1,0 +1,6 @@
+● arm-dashboard.service - Arm Twin - 3D digital twin and controller for the robot arm
+     Loaded: loaded (/etc/systemd/system/arm-dashboard.service; enabled; preset: enabled)
+     Active: active (running) since Fri 2026-10-02 06:03:52 BST; 1h 13min ago
+ Invocation: d12716f12fcf4dd689ecca23c3b68ade
+Oct 02 06:03:53 raspberrypi python3[1901]: Arm Twin 1.0.0 ready: http://raspberrypi.local:8080
+Oct 02 06:03:55 raspberrypi python3[1901]: [sys] Connected: Workshop arm firmware on /dev/ttyUSB0 (115200 baud), channels B S E G

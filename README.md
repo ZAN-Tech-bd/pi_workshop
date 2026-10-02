@@ -18,6 +18,7 @@ Companion slide deck: *Pi to Robot Vision Workshop* (ZAN Tech BD).
 | 6 | Example B: gesture → command | [`code/06_gestures/`](code/06_gestures/) · [`docs/06-gestures.md`](docs/06-gestures.md) | new | Fist/palm/pinch/point steer the arm | — |
 | 7 | PickBot finale | [`code/07_pickbot/`](code/07_pickbot/) · [`docs/07-pickbot.md`](docs/07-pickbot.md) | 35–41 | Full see→pick→place loop | 60-second relay |
 | 8 | RC Color Pilot | [`code/08_rc_car/`](code/08_rc_car/) · [`docs/08-rc-car.md`](docs/08-rc-car.md) | new | Vision-driven RC car: 6 colors → 6 directions + dashboard (:8081) | Color Rally |
+| A | Arm Twin dashboard | [`docs/09-arm-dashboard.md`](docs/09-arm-dashboard.md) | new | 3D digital twin + controller for the arm (:8080) — appendix, not a module | — |
 
 ## Kit list
 
@@ -58,3 +59,16 @@ raw transcripts in [`verify/session-2026-10-01/`](verify/session-2026-10-01/)
   engine for Pi 5.
 - **Only one program opens the camera sensor** — if a camera app (e.g. a dashboard) is
   running, `camera.py` falls back to its MJPEG stream automatically (`CAMERA_URL`).
+
+## The Pi dashboard family (all three run as boot services on the bench Pi)
+
+| Port | Dashboard | Guide |
+|---|---|---|
+| :8000 | Camera MJPEG | its own README (`~/Desktop/camera-dashboard`) |
+| :8080 | **Arm Twin** — 3D digital twin + controller for the module-3 arm | [`docs/09-arm-dashboard.md`](docs/09-arm-dashboard.md) |
+| :8081 | **RC Color Pilot** — module 8's vision policy + teleop | [`docs/08-rc-car.md`](docs/08-rc-car.md) |
+
+One serial port, one camera sensor — the dashboards share both by design: they
+consume the camera as an MJPEG stream, and only one of them holds `/dev/ttyUSB0`
+(the RC dashboard drops to dry-mode automatically; press **Disconnect** in the
+Arm Twin before uploads or workshop scripts).

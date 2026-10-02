@@ -28,6 +28,20 @@ module guide); the raw transcripts behind them are in
   loop unpacked it blindly. After the fix the loop runs its watch window
   cleanly, and a synthetic rig (fake camera → green square) proved the full
   pixels→mm→IK→pick-sequence loop five times over in simulation.
+  
+  ## Verified 2026-10-02 — both web dashboards live, with browser screenshots
+  
+  Module 8's **RC Color Pilot** (:8081) and the **Arm Twin** (:8080) verified as
+  running boot-services with real browser screenshots of every view (Firefox on
+  Xvfb + llvmpipe GL, Selenium-driven tab clicks) — embedded in
+  [`docs/08-rc-car.md`](../docs/08-rc-car.md) and
+  [`docs/09-arm-dashboard.md`](../docs/09-arm-dashboard.md); raw transcripts in
+  [`session-2026-10-02/`](session-2026-10-02/). Highlights: vision policy live at
+  ~8.5 fps with `red -> F` / `orange -> G` events, REST switch to MANUAL,
+  `/snapshot.jpg` serving annotated frames, the Arm Twin connected to the
+  module-3 firmware with live mm readouts on all four tabs, and the port-sharing
+  rule demonstrated live (RC dashboard in its documented dry-mode while the Arm
+  Twin holds `/dev/ttyUSB0`).
 
 ## Verified live vs pending hardware
 

@@ -1,0 +1,2 @@
+$ curl -s http://localhost:8081/api/status
+{"mode": "auto", "color": null, "direction": null, "cmd": null, "streak": 11, "fps": 8.5, "serial_ok": false, "serial_port": null, "camera": "MJPEG stream (http://localhost:8000/stream?w=640&h=480&fps=15)", "events": ["06:30:45  policy: nothing -> S", "06:30:43  policy: red -> F", "06:30:41  policy: orange -> G", "06:26:10  policy: nothing -> S", "06:26:09  camera up: MJPEG stream (http://localhost:8000/stream?w=640&h=480&fps=15)", "06:26:08  serial: no reply to PING"], "started": "06:26:08"}

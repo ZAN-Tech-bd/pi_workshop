@@ -1,0 +1,2 @@
+$ curl -s -o snapshot.jpg -w '%{http_code} %{content_type}' http://localhost:8081/snapshot.jpg
+200 image/jpeg
