@@ -17,4 +17,5 @@ verify/frames/*.jpg
 !verify/frames/live_view_2.jpg
 !verify/frames/color_track_00.jpg
 !verify/frames/color_track_01.jpg
+!verify/frames/rc-snapshot.jpg
 !verify/frames/README.md
