@@ -1,0 +1,45 @@
+{
+ "mode": "auto",
+ "color": null,
+ "cmd": null,
+ "streak": 23,
+ "fps": 7.4,
+ "camera": "MJPEG stream (http://localhost:8000/stream?w=640&h=480&fps=30)",
+ "events": [
+  {
+   "t": "04:31:40",
+   "text": "Looking for the car (ZAN_RC_Car)\u2026",
+   "tag": "info"
+  },
+  {
+   "t": "04:31:40",
+   "text": "Awake: the other pilots are asleep, the camera is ours",
+   "tag": "info"
+  },
+  {
+   "t": "04:31:09",
+   "text": "Asleep: Zan Gesture-Car (:8083) was opened",
+   "tag": "info"
+  },
+  {
+   "t": "04:31:06",
+   "text": "Looking for the car (ZAN_RC_Car)\u2026",
+   "tag": "info"
+  },
+  {
+   "t": "04:31:06",
+   "text": "Awake: the other pilots are asleep, the camera is ours",
+   "tag": "info"
+  },
+  {
+   "t": "04:30:42",
+   "text": "Nothing seen \u2192 S \u00b7 stop",
+   "tag": "dry"
+  },
+  {
+   "t": "04:30:42",
+   "text": "Dashboard started asleep \u2014 opening the page wakes it; output is off until you switch it on",
+   "tag": "info"
+  }
+ ]
+}

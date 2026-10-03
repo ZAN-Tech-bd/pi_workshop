@@ -1,210 +1,162 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RC Color Pilot — 6-color vision policy</title>
-<style>
-  :root {
-    --bg: #0b0f17; --panel: #121826; --panel2: #0e1420; --border: #1e2740;
-    --text: #e7ecf5; --muted: #8b96ad; --accent: #22d3ee; --accent2: #7c3aed;
-    --ok: #34d399; --warn: #fbbf24; --err: #f87171;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
-    background: radial-gradient(1200px 600px at 80% -10%, #16213c 0%, var(--bg) 55%);
-    color: var(--text); min-height: 100vh;
-  }
-  header {
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    padding: 16px 26px; border-bottom: 1px solid var(--border);
-    background: rgba(18,24,38,.75); backdrop-filter: blur(8px);
-    position: sticky; top: 0; z-index: 10; flex-wrap: wrap;
-  }
-  .brand { display: flex; align-items: center; gap: 12px; }
-  .logo {
-    width: 38px; height: 38px; border-radius: 10px; font-size: 20px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    display: grid; place-items: center; box-shadow: 0 0 18px rgba(34,211,238,.35);
-  }
-  h1 { font-size: 1.1rem; font-weight: 600; letter-spacing: .3px; }
-  h1 small { display: block; font-size: .68rem; color: var(--muted); font-weight: 400; }
-  .pills { display: flex; gap: 8px; flex-wrap: wrap; }
-  .pill {
-    display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px;
-    border-radius: 999px; font-size: .74rem; font-weight: 600;
-    border: 1px solid var(--border); background: var(--panel2);
-  }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
-  .pill.ok .dot { background: var(--ok); box-shadow: 0 0 8px var(--ok); animation: pulse 2s infinite; }
-  .pill.err .dot { background: var(--err); }
-  .pill.warn .dot { background: var(--warn); }
-  @keyframes pulse { 50% { opacity: .45; } }
-  a.navlink { color: var(--accent); font-size: .74rem; text-decoration: none; border: 1px solid var(--border); padding: 6px 12px; border-radius: 999px; }
-  main { max-width: 1240px; margin: 0 auto; padding: 22px; display: grid;
-         grid-template-columns: 1fr 330px; gap: 18px; }
-  @media (max-width: 960px) { main { grid-template-columns: 1fr; } }
-  .card {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
-    padding: 16px; overflow: hidden;
-  }
-  .card h2 { font-size: .8rem; color: var(--muted); text-transform: uppercase;
-             letter-spacing: .8px; margin-bottom: 10px; }
-  .video { position: relative; }
-  .video img { width: 100%; display: block; border-radius: 10px; background: #000; min-height: 200px; }
-  .see {
-    position: absolute; left: 12px; bottom: 12px; display: flex; align-items: center;
-    gap: 10px; background: rgba(11,15,23,.82); border: 1px solid var(--border);
-    padding: 8px 14px; border-radius: 999px; font-weight: 600; font-size: .95rem;
-  }
-  .chip { width: 16px; height: 16px; border-radius: 5px; background: #333; }
-  .see small { color: var(--muted); font-weight: 400; }
-  .stack { display: grid; gap: 14px; }
-  .modes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .modes button, .pad button {
-    font: inherit; font-weight: 700; color: var(--text); cursor: pointer;
-    background: var(--panel2); border: 1px solid var(--border);
-    border-radius: 10px; padding: 12px 8px; transition: .15s; user-select: none;
-    touch-action: none;
-  }
-  .modes button.active {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: #06121c; border-color: transparent; box-shadow: 0 0 16px rgba(34,211,238,.35);
-  }
-  .pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .pad button { padding: 16px 6px; font-size: 1rem; }
-  .pad button small { display: block; font-size: .58rem; color: var(--muted); font-weight: 500; }
-  .pad button:active, .pad button.held {
-    background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #06121c;
-  }
-  .pad button.stop { border-color: rgba(248,113,113,.5); color: var(--err); }
-  table.policy { width: 100%; border-collapse: collapse; font-size: .8rem; }
-  table.policy td { padding: 6px 4px; border-bottom: 1px solid var(--border); }
-  table.policy td.k { color: var(--accent); font-weight: 700; width: 34px; }
-  table.policy td:first-child { display: flex; align-items: center; gap: 8px; }
-  .swatch { width: 12px; height: 12px; border-radius: 4px; display: inline-block; }
-  ul#events { list-style: none; font-size: .74rem; color: var(--muted);
-              font-family: ui-monospace, Consolas, monospace; }
-  ul#events li { padding: 3px 0; border-bottom: 1px dashed var(--border); }
-  input[type=range] { width: 100%; accent-color: var(--accent); }
-  .hint { font-size: .72rem; color: var(--muted); margin-top: 8px; line-height: 1.5; }
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zan Color-Car</title>
+<meta name="description" content="Color segmentation you can see and edit: camera → masks → policy → RC car">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/static/app.css?v=3">
+<script>try { const t = localStorage.getItem('rcpilot.theme'); if (t) document.documentElement.dataset.theme = t; } catch {}</script>
+<script type="module" src="/static/app.js?v=3"></script>
 </head>
 <body>
-<header>
-  <div class="brand">
-    <div class="logo">🏎️</div>
-    <h1>RC Color Pilot<small>6-color vision policy · Pi sees · Nano drives</small></h1>
+<header class="bar">
+  <div class="mark">
+    <span class="mark-name">Zan Color-Car</span>
+    <ol class="loop" aria-label="The loop this page shows">
+      <li><a href="#sense">Sense</a></li><li><a href="#think">Think</a></li><li><a href="#act">Act</a></li>
+    </ol>
   </div>
-  <div class="pills">
-    <span class="pill" id="p-mode"><span class="dot"></span>MODE auto</span>
-    <span class="pill" id="p-cam"><span class="dot"></span>camera…</span>
-    <span class="pill" id="p-ser"><span class="dot"></span>serial…</span>
-    <span class="pill" id="p-fps"><span class="dot"></span>0 fps</span>
-    <a class="navlink" href="http://raspberrypi.local:8000/" target="_blank">Camera ↗</a>
-    <a class="navlink" href="http://raspberrypi.local:8080/" target="_blank">Arm Twin ↗</a>
+  <div class="health">
+    <span class="lamp" id="lamp-cam" data-tone="off"><i></i><span id="cam-text">Camera</span></span>
+    <span class="lamp" id="lamp-car" data-tone="off"><i></i><span id="car-text">Car</span></span>
+    <button class="btn quiet small" id="car-btn" title="The car takes one Bluetooth driver at a time">Take the car</button>
   </div>
+  <button class="output" id="output" role="switch" aria-checked="false" title="Send the actions to the car (Space turns it off)">
+    <span class="output-knob"></span><span class="output-text"><b id="output-state">Dry run</b><small id="output-sub">nothing is sent</small></span>
+  </button>
+  <nav class="siblings" aria-label="Other dashboards on this Pi">
+    <a id="link-cam" href="#" target="_blank" rel="noopener">Camera ↗</a>
+    <a id="link-arm" href="#" target="_blank" rel="noopener">Arm Twin ↗</a>
+    <a id="link-gesture" href="#" target="_blank" rel="noopener">Zan Gesture-Car ↗</a>
+    <button class="ghost-btn" id="theme" aria-label="Switch light or dark">◐</button>
+  </nav>
 </header>
 
 <main>
-  <div class="card video">
-    <h2>What the policy sees</h2>
-    <img src="/stream" alt="live camera">
-    <div class="see"><span class="chip" id="chip"></span>
-      <span id="seeing">waiting…</span><small id="streak"></small></div>
-  </div>
+  <section class="stage" aria-label="Sense, think, act">
+    <article class="panel" id="sense">
+      <header class="panel-head">
+        <span class="step">1</span>
+        <div><h2>Sense</h2><p>the camera's picture</p></div>
+        <div class="tools">
+          <select id="camera-pick" hidden aria-label="Which camera"></select>
+          <div class="seg" role="group" aria-label="Picture source" id="source">
+            <button data-source="camera">Camera</button><button data-source="testcard">Test card</button>
+          </div>
+        </div>
+      </header>
+      <div class="frame" id="frame-cam"><img id="img-cam" alt="Live camera with the detected card boxed"><i class="probe" hidden></i>
+        <p class="frame-msg" id="msg-cam" hidden></p></div>
+      <p class="caption">Click the picture to read a pixel's color.</p>
+    </article>
 
-  <div class="stack">
-    <div class="card">
-      <h2>Mode</h2>
-      <div class="modes">
-        <button id="m-auto" class="active" onclick="setMode('auto')">🤖 AUTO — vision drives</button>
-        <button id="m-manual" onclick="setMode('manual')">🎮 MANUAL — you drive</button>
+    <article class="panel" id="think">
+      <header class="panel-head">
+        <span class="step">2</span>
+        <div><h2>Think</h2><p>which pixels match which color</p></div>
+        <div class="tools">
+          <label class="mini-switch"><input type="checkbox" id="context" checked><span>Scene</span></label>
+          <select id="only" aria-label="Show in the map"><option value="">All colors</option></select>
+        </div>
+      </header>
+      <div class="frame" id="frame-mask"><img id="img-mask" alt="Segmentation map: each pixel painted with the color class it matched"><i class="probe" hidden></i></div>
+      <ul class="coverage" id="coverage" aria-label="Share of the picture each color covers"></ul>
+    </article>
+
+    <article class="panel act" id="act">
+      <header class="panel-head">
+        <span class="step">3</span>
+        <div><h2>Act</h2><p>what the car is told</p></div>
+      </header>
+      <div class="signal" id="signal" data-kind="key">
+        <span class="signal-main" id="sig-main">S</span>
+        <span class="signal-word" id="sig-word">stop</span>
       </div>
-      <p class="hint">AUTO: hold a colored card in view (10+ frames) and the policy
-      drives. MANUAL: the D-pad below sends the same RC-101 keys the phone app
-      uses. The car stops by itself if commands stop (firmware fail-safe).</p>
-    </div>
+      <p class="verdict" id="verdict">Waiting for the picture…</p>
+      <div class="hold" id="hold" aria-label="Frames the color has held"></div>
+      <p class="wire" id="wire"></p>
 
-    <div class="card">
-      <h2>Teleop (manual mode)</h2>
-      <div class="pad">
-        <button data-k="G" onpointerdown="pk(this)" onpointerup="rk(this)">G<small>front-left</small></button>
-        <button data-k="F" onpointerdown="pk(this)" onpointerup="rk(this)">F<small>forward</small></button>
-        <button data-k="I" onpointerdown="pk(this)" onpointerup="rk(this)">I<small>front-right</small></button>
-        <button data-k="L" onpointerdown="pk(this)" onpointerup="rk(this)">L<small>left</small></button>
-        <button class="stop" data-k="S" onclick="send('S')">S<small>STOP</small></button>
-        <button data-k="R" onpointerdown="pk(this)" onpointerup="rk(this)">R<small>right</small></button>
-        <button data-k="H" onpointerdown="pk(this)" onpointerup="rk(this)">H<small>back-left</small></button>
-        <button data-k="B" onpointerdown="pk(this)" onpointerup="rk(this)">B<small>backward</small></button>
-        <button data-k="J" onpointerdown="pk(this)" onpointerup="rk(this)">J<small>back-right</small></button>
+      <div class="seg wide" role="group" aria-label="Who drives" id="mode">
+        <button data-mode="auto">Vision drives</button><button data-mode="manual">You drive</button>
       </div>
-      <p class="hint">Cruise speed <span id="spd">5</span>/9
-        <input type="range" min="1" max="9" value="5" oninput="speed(this.value)"></p>
+      <div class="pad" id="pad" aria-label="Drive buttons (hold to drive)">
+        <button data-k="G">G<small>front-left</small></button><button data-k="F">F<small>forward</small></button><button data-k="I">I<small>front-right</small></button>
+        <button data-k="L">L<small>left</small></button><button data-k="S" class="stop">S<small>stop</small></button><button data-k="R">R<small>right</small></button>
+        <button data-k="H">H<small>back-left</small></button><button data-k="B">B<small>backward</small></button><button data-k="J">J<small>back-right</small></button>
+      </div>
+      <label class="speed">Cruise speed <input type="range" id="speed" min="1" max="9" step="1"><output id="speed-out">5</output></label>
+      <ol class="events" id="events" aria-label="What happened"></ol>
+    </article>
+  </section>
+
+  <section class="sampler" id="sampler" hidden aria-live="polite">
+    <span class="sampler-chip" id="smp-chip"></span>
+    <div class="sampler-read"><b>Pixel</b><span class="mono" id="smp-hsv"></span><span id="smp-match"></span></div>
+    <div class="sampler-actions">
+      <button class="btn" id="smp-new">Add as a new color</button>
+      <button class="btn" id="smp-teach">Teach Red this shade</button>
+      <button class="ghost-btn" id="smp-close" aria-label="Close">✕</button>
+    </div>
+  </section>
+
+  <section class="classifier" aria-labelledby="cls-title">
+    <header class="cls-head">
+      <div>
+        <h2 id="cls-title">Color classes</h2>
+        <p>A class is a slice of the hue wheel plus a window of saturation and brightness. Every pixel inside it gets the class color in the map.</p>
+      </div>
+      <div class="cls-actions">
+        <button class="btn" id="add">Add a color</button>
+        <button class="btn" id="code">Show as code</button>
+        <button class="btn quiet" id="reset">Reset to the course colors</button>
+      </div>
+    </header>
+
+    <div class="cls-body">
+      <figure class="wheel">
+        <svg id="wheel" viewBox="-16 -16 352 352" role="img" aria-label="Hue wheel: each ring is one color class, its arc is the hues it accepts"></svg>
+        <figcaption>Drag the white handles to change the hue slice. Drag the arc to slide it.</figcaption>
+      </figure>
+      <ul class="chips" id="chips" aria-label="Color classes"></ul>
     </div>
 
-    <div class="card">
-      <h2>The policy (6 colors → 6 directions)</h2>
-      <table class="policy" id="policy"></table>
+    <div class="cls-lower">
+      <form class="editor" id="editor" autocomplete="off" onsubmit="return false"></form>
+      <form class="rules" id="rules" autocomplete="off" onsubmit="return false">
+        <h3>Policy rules</h3>
+        <label class="rule"><span>Smallest blob that counts</span>
+          <input type="range" id="r-area" min="0" max="100" step="1"><output class="mono" id="r-area-out"></output>
+          <small>Smaller patches are painted in the map but never steer the car.</small></label>
+        <label class="rule"><span>Hold before acting</span>
+          <input type="range" id="r-hold" min="1" max="30" step="1"><output class="mono" id="r-hold-out"></output>
+          <small>A color must win this many frames in a row. This filters flicker.</small></label>
+        <label class="rule"><span>Clean-up passes</span>
+          <input type="range" id="r-clean" min="0" max="5" step="1"><output class="mono" id="r-clean-out"></output>
+          <small>Erode then dilate: removes speckles, but too many erase thin objects.</small></label>
+        <div class="rule"><span>When no color is seen</span><div class="action-pick" id="r-nothing"></div></div>
+      </form>
     </div>
-
-    <div class="card">
-      <h2>Events</h2>
-      <ul id="events"><li>booting…</li></ul>
-    </div>
-  </div>
+  </section>
 </main>
 
-<script>
-const MAP = [
-  ["red",    "F", "forward",    "#e5394f"],
-  ["blue",   "B", "backward",   "#3d6bff"],
-  ["green",  "L", "left",       "#37c837"],
-  ["yellow", "R", "right",      "#e6c519"],
-  ["orange", "G", "front-left", "#ff8a2a"],
-  ["purple", "I", "front-right", "#a64dff"],
-];
-const tbl = document.getElementById("policy");
-tbl.innerHTML = MAP.map(([c,k,n,col]) =>
-  `<tr><td><span class="swatch" style="background:${col}"></span>${c}</td>` +
-  `<td class="k">${k}</td><td>${n}</td></tr>`).join("") +
-  `<tr><td><span class="swatch" style="background:#333"></span>none</td>` +
-  `<td class="k">S</td><td>stop</td></tr>`;
+<dialog class="code" id="code-dlg" aria-labelledby="code-title">
+  <header><h2 id="code-title">The classifier as Python</h2><button class="ghost-btn" id="code-close" aria-label="Close">✕</button></header>
+  <p>Paste <code>RANGES</code> into <code>04_opencv/color_track.py</code> and <code>DIRECTIONS</code> into <code>08_rc_car/vision_drive.py</code>: the command-line scripts then see the same colors as this page.</p>
+  <pre id="code-text"></pre>
+  <footer><button class="btn" id="code-copy">Copy</button></footer>
+</dialog>
 
-function pill(id, cls, text) {
-  const el = document.getElementById(id);
-  el.className = "pill " + cls; el.textContent = text;
-}
-async function send(k) { try { await fetch("/api/cmd?k=" + k); } catch(e){} }
-function pk(b){ b.classList.add("held"); send(b.dataset.k); }
-function rk(b){ b.classList.remove("held"); send("S"); }
-async function setMode(m){
-  await fetch("/api/mode?m=" + m);
-  document.getElementById("m-auto").className = m==="auto" ? "active":"";
-  document.getElementById("m-manual").className = m==="manual" ? "active":"";
-}
-async function speed(n){ document.getElementById("spd").textContent = n;
-  await fetch("/api/speed?n=" + n); }
-
-async function tick(){
-  try {
-    const s = await (await fetch("/api/status")).json();
-    pill("p-mode", s.mode==="auto" ? "ok":"warn", "MODE " + s.mode);
-    pill("p-cam", s.camera && s.camera!=="?" ? "ok":"err", s.camera==="?" ? "camera…" : "camera ok");
-    pill("p-ser", s.serial_ok ? "ok":"err", s.serial_ok ? "serial ok" : "serial off (dry)");
-    pill("p-fps", "", s.fps + " fps");
-    const chip = document.getElementById("chip");
-    const row = MAP.find(m => m[0] === s.color);
-    chip.style.background = row ? row[3] : "#333";
-    document.getElementById("seeing").textContent =
-      s.color ? `${s.color} → ${row ? row[1] : "?"} ${s.direction}` : "nothing → S stop";
-    document.getElementById("streak").textContent = s.streak ? `streak ${s.streak}` : "";
-    document.getElementById("events").innerHTML =
-      s.events.map(e => `<li>${e}</li>`).join("");
-  } catch(e) {}
-}
-setInterval(tick, 700); tick();
-</script>
+<div class="asleep" id="asleep" hidden>
+  <div class="asleep-card" role="status">
+    <span class="asleep-z" aria-hidden="true">z<small>z</small></span>
+    <h2>Asleep</h2>
+    <p id="asleep-why">Another pilot was opened.</p>
+    <p class="asleep-note">Only one pilot runs at a time: this one has let go of the camera and the car.</p>
+    <button class="btn" id="wake-btn">Wake this pilot</button>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
 </body>
 </html>

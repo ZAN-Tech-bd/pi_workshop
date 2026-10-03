@@ -42,6 +42,20 @@ module guide); the raw transcripts behind them are in
   module-3 firmware with live mm readouts on all four tabs, and the port-sharing
   rule demonstrated live (RC dashboard in its documented dry-mode while the Arm
   Twin holds `/dev/ttyUSB0`).
+  
+  ## Verified 2026-10-03 — the four-port rig (8000 · 8080–8083)
+  
+  The rig grew to **three pilots sharing one Bluetooth car** (Color :8081 ·
+  Gesture :8083 · ZAN LLM :8082) plus the unchanged Arm Twin (:8080). Verified
+  with transcripts and browser screenshots in
+  [`session-2026-10-03/`](session-2026-10-03/), embedded in
+  [`docs/09-gesture-pilot.md`](../docs/09-gesture-pilot.md) (module 9, new) and
+  [`docs/10-zan-pilot-llm.md`](../docs/10-zan-pilot-llm.md) (module 10, new).
+  Highlights: gesture selftest PASS (174/174 taught, non-hand + mirror
+  rejected); the LLM pilot parsed `"back up slowly"` → `{"action":"backward",
+  "speed":2}` live over SSE on the Pi's own qwen2.5:1.5b; the wake/sleep + car
+  handover between the three pilots observed in every status log; and the
+  deployed-but-newer RC dashboard code synced back into the repo.
 
 ## Verified live vs pending hardware
 

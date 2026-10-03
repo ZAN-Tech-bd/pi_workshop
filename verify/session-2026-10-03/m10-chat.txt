@@ -1,0 +1,20 @@
+data: {"t": "tok", "s": "{\""}
+
+data: {"t": "tok", "s": "action"}
+
+data: {"t": "tok", "s": "\":\""}
+
+data: {"t": "tok", "s": "backward"}
+
+data: {"t": "tok", "s": "\",\""}
+
+data: {"t": "tok", "s": "speed"}
+
+data: {"t": "tok", "s": "\":"}
+
+data: {"t": "tok", "s": "2"}
+
+data: {"t": "tok", "s": "}"}
+
+data: {"t": "done", "json": {"action": "backward", "speed": 2}, "sent": false, "why": "dry run (Send to car is off)", "ms": 69944, "tok_s": 2.3}
+

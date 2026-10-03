@@ -19,3 +19,9 @@ verify/frames/*.jpg
 !verify/frames/color_track_01.jpg
 !verify/frames/rc-snapshot.jpg
 !verify/frames/README.md
+
+# RC Color Pilot: color classes edited on the page (runtime state)
+code/08_rc_car/dashboard/data/
+
+# Gesture Pilot: gestures + examples taught on the page (runtime state)
+code/09_gesture_car/dashboard/data/

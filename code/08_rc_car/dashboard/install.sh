@@ -8,8 +8,8 @@
 #
 # Co-exists with the other dashboards:
 #   :8000 camera-dashboard · :8080 Arm Twin · :8081 RC Color Pilot
-# The serial pill shows "serial off (dry)" while the Arm Twin holds the
-# USB port — the car gets its OWN Nano (a Nano is one brain at a time).
+# The car lamp shows "Car · not found" (dry run) while the only Nano is the
+# arm's — the car gets its OWN Nano (a Nano is one brain at a time).
 
 set -e
 SRC="$(cd "$(dirname "$0")" && pwd)"            # code/08_rc_car/dashboard
@@ -22,6 +22,9 @@ cp "$SRC/server.py" "$SRC/index.html" \
    "$MOD/vision_drive.py" \
    "$OPEC/camera.py" "$OPEC/color_track.py" \
    "$DEST/"
+rm -rf "$DEST/static"
+cp -r "$SRC/static" "$DEST/static"              # page script, styles, fonts
+# $DEST/data/vision.json (the color classes edited on the page) is never touched
 
 cat > "$DEST/start.sh" <<'EOF'
 #!/bin/bash
@@ -58,9 +61,14 @@ Manual start : ./start.sh
 Service      : sudo systemctl restart rc-dashboard
 Status       : http://raspberrypi.local:8081/  (also /api/status, /snapshot.jpg)
 
-Serial: the car needs its OWN Arduino Nano. While the Arm Twin service holds
-/dev/ttyUSB0, this dashboard runs vision-only ("serial off (dry)") — stop the
-arm service or plug in the car's Nano to drive for real.
+Color classes, actions and policy rules are edited on the page and saved in
+data/vision.json (delete it to get the six course colors back).
+
+Output starts OFF after every restart (dry run): switch it on in the page.
+
+Serial: the car needs its OWN Arduino Nano running car_firmware.ino. The page
+asks every free USB serial port "PING" and uses the one that answers "OK";
+ports another program holds (the Arm Twin keeps the arm's Nano) are skipped.
 EOF
 
 echo "copied to $DEST"

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gesture Pilot</title>
+<meta name="description" content="Hand gestures you can see, teach and edit: camera → MediaPipe hand → gesture → RC car">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/static/app.css">
+<script>try { const t = localStorage.getItem('gpilot.theme'); if (t) document.documentElement.dataset.theme = JSON.parse(t); } catch {}</script>
+<script type="module" src="/static/app.js"></script>
+</head>
+<body>
+<header class="bar">
+  <div class="mark">
+    <span class="mark-name">Gesture Pilot</span>
+    <ol class="loop" aria-label="The loop this page shows">
+      <li><a href="#sense">Sense</a></li><li><a href="#think">Think</a></li><li><a href="#act">Act</a></li>
+    </ol>
+  </div>
+  <div class="health">
+    <span class="lamp" id="lamp-cam" data-tone="off"><i></i><span id="cam-text">Camera</span></span>
+    <span class="lamp" id="lamp-car" data-tone="off"><i></i><span id="car-text">Car</span></span>
+    <button class="btn quiet small" id="car-btn" title="The car takes one Bluetooth driver at a time">Take the car</button>
+  </div>
+  <button class="output" id="output" role="switch" aria-checked="false" title="Send the actions to the car (Space turns it off)">
+    <span class="output-knob"></span><span class="output-text"><b id="output-state">Dry run</b><small id="output-sub">nothing is sent</small></span>
+  </button>
+  <nav class="siblings" aria-label="Other dashboards on this Pi">
+    <a id="link-rc" href="#" target="_blank" rel="noopener">Color Pilot ↗</a>
+    <a id="link-cam" href="#" target="_blank" rel="noopener">Camera ↗</a>
+    <button class="ghost-btn" id="theme" aria-label="Switch light or dark">◐</button>
+  </nav>
+</header>
+
+<main>
+  <section class="stage" aria-label="Sense, think, act">
+    <article class="panel" id="sense">
+      <header class="panel-head">
+        <span class="step">1</span>
+        <div><h2>Sense</h2><p>MediaPipe finds 21 points on your hand</p></div>
+        <div class="tools">
+          <label class="mini-switch" title="Selfie view: your left is the screen's left"><input type="checkbox" id="mirror"><span>Mirror</span></label>
+          <div class="seg" role="group" aria-label="Picture source" id="source">
+            <button data-source="camera">Camera</button><button data-source="demo">Demo</button>
+          </div>
+        </div>
+      </header>
+      <div class="frame" id="frame-cam"><img id="img-cam" alt="Live camera">
+        <svg class="overlay" id="overlay" viewBox="0 0 640 480" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <p class="frame-msg" id="msg-cam" hidden></p>
+        <div class="countdown" id="countdown" hidden><b id="count-num">3</b><span id="count-text">Hold the gesture…</span><i class="count-bar"><i id="count-fill"></i></i></div>
+      </div>
+      <p class="caption" id="cam-caption">Show one hand, about an arm's length from the camera. <span class="mono" id="rates"></span></p>
+    </article>
+
+    <article class="panel" id="think">
+      <header class="panel-head">
+        <span class="step">2</span>
+        <div><h2>Think</h2><p>which gesture is this hand making?</p></div>
+      </header>
+      <div class="think-top">
+        <figure class="handmap">
+          <svg id="handmap" viewBox="-2.5 -2.7 5 5" role="img" aria-label="Your hand, normalized: wrist at the centre, palm length 1"></svg>
+          <figcaption id="map-caption">Your hand, normalized</figcaption>
+        </figure>
+        <div class="readout">
+          <ul class="fingers" id="fingers" aria-label="Which fingers are out"></ul>
+          <p class="dirs mono" id="dirs">—</p>
+          <p class="whythink" id="whythink"></p>
+        </div>
+      </div>
+      <ol class="scores" id="scores" aria-label="How well each gesture fits"></ol>
+    </article>
+
+    <article class="panel act" id="act">
+      <header class="panel-head">
+        <span class="step">3</span>
+        <div><h2>Act</h2><p>what the car is told</p></div>
+      </header>
+      <div class="signal" id="signal" data-kind="key">
+        <span class="signal-emoji" id="sig-emoji"></span>
+        <span class="signal-main" id="sig-main">S</span>
+        <span class="signal-word" id="sig-word">stop</span>
+      </div>
+      <p class="verdict" id="verdict">Waiting for the picture…</p>
+      <div class="hold" id="hold" aria-label="Frames the gesture has held"></div>
+      <p class="wire" id="wire"></p>
+
+      <div class="seg wide" role="group" aria-label="Who drives" id="mode">
+        <button data-mode="auto">Gestures drive</button><button data-mode="manual">You drive</button>
+      </div>
+      <div class="pad" id="pad" aria-label="Drive buttons (hold to drive)">
+        <button data-k="G">G<small>front-left</small></button><button data-k="F">F<small>forward</small></button><button data-k="I">I<small>front-right</small></button>
+        <button data-k="L">L<small>left</small></button><button data-k="S" class="stop">S<small>stop</small></button><button data-k="R">R<small>right</small></button>
+        <button data-k="H">H<small>back-left</small></button><button data-k="B">B<small>backward</small></button><button data-k="J">J<small>back-right</small></button>
+      </div>
+      <label class="speed">Speed <input type="range" id="speed" min="0" max="9" step="1"><output id="speed-out" class="mono">5</output></label>
+      <ol class="events" id="events" aria-label="What happened"></ol>
+    </article>
+  </section>
+
+  <section class="library" aria-labelledby="lib-title">
+    <header class="cls-head">
+      <div>
+        <h2 id="lib-title">Gestures</h2>
+        <p>Each gesture is a hand pose plus what it makes the car do. <b>Built-in</b> ones are geometry rules you can read; <b>taught</b> ones learn from examples you show the camera. Taught gestures are checked first.</p>
+      </div>
+      <div class="cls-actions">
+        <button class="btn" id="teach">Teach a new gesture</button>
+        <button class="btn" id="add-builtin">Add a built-in</button>
+        <button class="btn quiet" id="export">Export</button>
+        <button class="btn quiet" id="import">Import</button>
+        <button class="btn quiet" id="reset">Reset</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+    </header>
+
+    <ul class="chips" id="chips" aria-label="Gestures"></ul>
+
+    <div class="cls-lower">
+      <form class="editor" id="editor" autocomplete="off" onsubmit="return false"></form>
+      <form class="rules" id="rules" autocomplete="off" onsubmit="return false">
+        <h3>Policy rules</h3>
+        <label class="rule"><span>Hold before acting</span>
+          <input type="range" id="r-hold" min="1" max="15" step="1"><output class="mono" id="r-hold-out"></output>
+          <small>A gesture must win this many frames in a row before the car obeys. Letting go takes 2.</small></label>
+        <label class="rule"><span>Match radius (taught)</span>
+          <input type="range" id="r-radius" min="10" max="80" step="1"><output class="mono" id="r-radius-out"></output>
+          <small>How far your hand may be from its examples, in palm lengths. Bigger = forgiving, but poses blur together.</small></label>
+        <label class="rule"><span>Rule strictness (built-in)</span>
+          <input type="range" id="r-rule" min="50" max="95" step="1"><output class="mono" id="r-rule-out"></output>
+          <small>The fuzzy score a built-in rule needs. Its score is its weakest condition.</small></label>
+        <div class="rule"><span>Hand model</span>
+          <div class="seg" role="group" id="r-model"><button data-model="0">Lite · fast</button><button data-model="1">Full · precise</button></div>
+          <small>Full is about twice the work for the Pi's CPU.</small></div>
+        <div class="rule"><span>Engine</span>
+          <div class="seg" role="group" id="r-workers"><button data-workers="1">1 core</button><button data-workers="2">2 cores · faster</button></div>
+          <small>Two MediaPipe workers take turns on frames: about twice the gesture rate. The video itself always runs at the camera's speed.</small></div>
+        <div class="rule"><span>When no gesture is seen</span><div class="action-pick" id="r-nothing"></div>
+          <small>S (stop) is the safe choice: the car keeps its last key otherwise.</small></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<dialog class="code" id="builtin-dlg" aria-labelledby="bi-title">
+  <header><h2 id="bi-title">Add a built-in gesture</h2><button class="ghost-btn" id="bi-close" aria-label="Close">✕</button></header>
+  <p>Rules are plain geometry: which fingers are out and where the finger or thumb points. Directions are as you see them on screen.</p>
+  <ul class="catalog" id="catalog"></ul>
+</dialog>
+
+<div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>

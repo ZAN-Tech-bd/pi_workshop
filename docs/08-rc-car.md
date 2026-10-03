@@ -98,62 +98,96 @@ and free, the same run answers `link PING: OK` and ends `selftest: PASS`:
 
 ## The dashboard — http://raspberrypi.local:8081/
 
-Third member of the Pi dashboard family (8000 camera · 8080 Arm Twin · 8081 this):
+Third member of the Pi dashboard family (8000 camera · 8080 Arm Twin · 8081 this).
+The page lays the sense–think–act loop out left to right, and **the classifier is
+editable while the car runs**: that is the lesson.
 
-- live annotated video — the frame **with the policy's verdict drawn on it**
-- big "seeing" chip: current color → key → direction, with the frame streak
-- **AUTO / MANUAL** toggle
-- **teleop D-pad** (G F I / L S R / H B J) — press-and-hold drives, release stops;
-  cruise-speed slider (1–9). MANUAL sends the same RC-101 keys as the app
-- the policy table and a live event log (what was sent, when)
-- serial not connected? It still runs as a vision demo ("serial off (dry)")
+| Panel | What students see |
+|---|---|
+| **1 Sense** | the camera picture, or a built-in **test card** (a hand-held card that changes color every few seconds). Click any pixel to read its H S V |
+| **2 Think** | the **segmentation map**: every pixel painted with the color class it matched, the rest of the scene greyed out; show one class at a time |
+| **3 Act** | the command as a big signal card in the winning color, the **hold meter** (temporal smoothing, frame by frame), what goes down the wire, AUTO / MANUAL, the hold-to-drive D-pad, cruise speed, the event log |
+
+Below it, **Color classes**: a hue wheel where every class owns a slice of the
+spectrum (red's slice crosses 0), a swatch card per class with its live share of the
+picture, and an editor:
+
+- drag the wheel handles (or type 0–179) to set the hue slice; dual sliders set
+  saturation and brightness. The map repaints while you drag
+- **click a pixel → "Add as a new color"** builds a class around that shade;
+  **"Teach ‹class› this shade"** stretches an existing class to cover it
+- **When it wins** picks the action: an RC key (`F B L R G I H J S`), any serial
+  line (`D,150,150` …), a saved **Arm Twin pose** (vision moves the arm, which works
+  with the arm's Nano alone), or nothing
+- policy rules: the smallest blob that counts, how many frames a color must hold,
+  clean-up passes (erode/dilate), what to do when nothing is seen
+- **Show as code** prints `RANGES` and `DIRECTIONS` for `color_track.py` and
+  `vision_drive.py`, so the command-line scripts see the colors you tuned
+
+Edits are saved on the Pi (`data/vision.json`); **Reset to the course colors** brings
+back the six cards. **Output starts OFF (dry run) after every restart**: the page shows
+what it *would* send until you flip the switch, and Space or Esc turns it off again.
+While a key is active it is re-sent every 250 ms, so the firmware's 900 ms fail-safe
+keeps the car moving only as long as the dashboard keeps deciding.
+
+The car link finds the car's Nano by asking every free USB serial port `PING` and
+using the one that answers `OK`. Ports another program holds (the Arm Twin keeps the
+arm's Nano) are skipped, and the car lamp's tooltip names them.
 
 Installed as `rc-dashboard.service` (auto-starts on boot), source of truth in
 [`code/08_rc_car/`](../code/08_rc_car/), deployed copy in `~/Desktop/rc-dashboard/`
-(`dashboard/install.sh` refreshes it):
+(`dashboard/install.sh` refreshes it and keeps `data/`):
 
 ![rc-dashboard service](images/m8-01-service.png)
 
-**Live on the bench Pi — 2026-10-02.** AUTO mode: the video panel shows the
-annotated frame (the policy's verdict drawn on it), the status pills read
-`camera ok · serial off (dry) · ~8.5 fps`, and the event log has already
-recorded `policy: red -> F`, `policy: orange -> G`, `policy: nothing -> S`:
+**Live on the bench Pi.** The test card in AUTO: the camera view boxes the winning
+card and marks its centre, the map paints it orange, and the Act card says **G**
+(front-left) once the hold meter is full. The six tiny chips at the bottom are
+segmented too, but they are smaller than the minimum blob, so they never steer:
 
 ![RC dashboard in AUTO](images/m8-dash-auto.png)
 
-Switched to MANUAL over the REST API (`/api/mode?m=manual`) — the teleop D-pad
-lights up, "you drive":
+The classifier: hue wheel, swatch cards with live coverage, the editor and the
+policy rules:
+
+![RC dashboard, color classes](images/m8-dash-classes.png)
+
+MANUAL: you drive with the D-pad (press and hold; release stops):
 
 ![RC dashboard in MANUAL](images/m8-dash-manual.png)
 
-It is a phone-first layout, too:
+It works on a phone, too:
 
 ![RC dashboard, phone window](images/m8-dash-phone.png)
 
-One annotated frame straight from the `/snapshot.jpg` endpoint (what the policy
-actually sees):
+One annotated frame straight from `/snapshot.jpg` (what the policy sees;
+`/snapshot.jpg?view=mask` gives the segmentation map):
 
 ![annotated snapshot](images/m8-snapshot.jpg)
 
-And the whole state machine readable over one REST call — mode, verdict,
-streak, fps, camera source and the event log in a single JSON document:
+And the whole state machine readable over one REST call: mode, verdict, streak,
+fps, camera source and the event log in a single JSON document:
 
 ![REST status](images/m8-02-api.png)
 
-REST API for experiments: `/api/status`, `/api/cmd?k=F`, `/api/mode?m=manual`,
-`/api/speed?n=5`, `/snapshot.jpg`, `/stream` (MJPEG).
+REST API for experiments: `/api/status`, `/api/config` (GET and POST),
+`/api/sample?x=0.5&y=0.5`, `/api/output`, `/api/mode`, `/api/drive`, `/api/speed`,
+`/api/source`, `/api/serial`, `/snapshot.jpg?view=camera|mask`,
+`/stream?view=camera|mask` (MJPEG). The first version's `/api/cmd?k=F`,
+`/api/mode?m=manual` and `/api/speed?n=5` still work.
 
 ## Testing procedure (in this order)
 
 | Step | Command / action | Pass when |
 |---|---|---|
 | 1 | `python3 vision_drive.py --selftest` | 6× `classifier: … OK`, `link PING: OK`, `PASS` |
-| 2 | dashboard up, open 8081 | video shows, "camera ok" pill green |
-| 3 | MANUAL + hold F (car wheels OFF the ground) | event log `TX F`, wheels forward |
-| 4 | release button | wheels stop (fail-safe backs you up too) |
-| 5 | AUTO + red card in view | chip turns red, `policy: red -> F` in the log |
-| 6 | walk through all six cards | each direction fires once, holds while held |
-| 7 | remove cards | `nothing -> S`, car stops |
+| 2 | dashboard up, open 8081 | picture shows, the "Camera · 15 fps" lamp is green |
+| 3 | switch Output on, MANUAL, hold F (car wheels OFF the ground) | event log `Manual → F · forward` tagged SENT, wheels forward |
+| 4 | release the button | `Manual → S · stop`, wheels stop (the fail-safe backs you up too) |
+| 5 | AUTO + red card in view | the hold meter fills, the Act card turns red with **F**, `Red → F · forward` in the log |
+| 6 | walk through all six cards | each direction fires and holds while the card is held |
+| 7 | remove the cards | `Nothing seen → S · stop`, car stops |
+| 8 | click a card in the picture, then "Teach ‹class› this shade" | the card is painted solid in the map |
 
 ## Safety
 

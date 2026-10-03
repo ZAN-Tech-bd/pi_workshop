@@ -18,6 +18,8 @@ Companion slide deck: *Pi to Robot Vision Workshop* (ZAN Tech BD).
 | 6 | Example B: gesture → command | [`code/06_gestures/`](code/06_gestures/) · [`docs/06-gestures.md`](docs/06-gestures.md) | new | Fist/palm/pinch/point steer the arm | — |
 | 7 | PickBot finale | [`code/07_pickbot/`](code/07_pickbot/) · [`docs/07-pickbot.md`](docs/07-pickbot.md) | 35–41 | Full see→pick→place loop | 60-second relay |
 | 8 | RC Color Pilot | [`code/08_rc_car/`](code/08_rc_car/) · [`docs/08-rc-car.md`](docs/08-rc-car.md) | new | Vision-driven RC car: 6 colors → 6 directions + dashboard (:8081) | Color Rally |
+| 9 | Gesture Pilot | [`code/09_gesture_car/`](code/09_gesture_car/) · [`docs/09-gesture-pilot.md`](docs/09-gesture-pilot.md) | new | MediaPipe hand gestures drive the car; teach your own gestures + dashboard (:8083) | Gesture Slalom |
+| 10 | ZAN Pilot (LLM) | [`docs/10-zan-pilot-llm.md`](docs/10-zan-pilot-llm.md) | new | English → on-Pi qwen2.5:1.5b → intent JSON → car key (:8082) | Prompt Golf |
 | A | Arm Twin dashboard | [`docs/09-arm-dashboard.md`](docs/09-arm-dashboard.md) | new | 3D digital twin + controller for the arm (:8080) — appendix, not a module | — |
 
 ## Kit list
@@ -60,13 +62,15 @@ raw transcripts in [`verify/session-2026-10-01/`](verify/session-2026-10-01/)
 - **Only one program opens the camera sensor** — if a camera app (e.g. a dashboard) is
   running, `camera.py` falls back to its MJPEG stream automatically (`CAMERA_URL`).
 
-## The Pi dashboard family (all three run as boot services on the bench Pi)
+## The Pi dashboard family (boot services on the bench Pi)
 
 | Port | Dashboard | Guide |
 |---|---|---|
 | :8000 | Camera MJPEG | its own README (`~/Desktop/camera-dashboard`) |
 | :8080 | **Arm Twin** — 3D digital twin + controller for the module-3 arm | [`docs/09-arm-dashboard.md`](docs/09-arm-dashboard.md) |
 | :8081 | **RC Color Pilot** — module 8's vision policy + teleop | [`docs/08-rc-car.md`](docs/08-rc-car.md) |
+| :8083 | **Gesture Pilot** — module 9: hand gestures (built-in + taught) drive the car | [`docs/09-gesture-pilot.md`](docs/09-gesture-pilot.md) |
+| :8082 | **ZAN Pilot** — module 10: English → on-Pi LLM → car key (user service) | [`docs/10-zan-pilot-llm.md`](docs/10-zan-pilot-llm.md) |
 
 One serial port, one camera sensor — the dashboards share both by design: they
 consume the camera as an MJPEG stream, and only one of them holds `/dev/ttyUSB0`

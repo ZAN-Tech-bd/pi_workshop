@@ -1,0 +1,27 @@
+        rot    90  thumb_right       -> thumb_right       0.82  [i0.1 m0.2 r0.1 p0.1 t1.0] OK
+thumbs_up            rot   -90  thumb_left        -> thumb_left        0.86  [i0.1 m0.1 r0.1 p0.0 t1.0] OK
+thumbs_down          rot     0  thumb_down        -> thumb_down        0.99  [i0.0 m0.0 r0.0 p0.0 t1.0] OK
+victory              rot     0  victory           -> victory           1.00  [i1.0 m1.0 r0.0 p0.0 t0.0] OK
+victory2             rot     0  victory           -> victory           0.96  [i1.0 m1.0 r0.0 p0.0 t0.0] OK
+pointing_up          rot     0  point_up          -> point_up          1.00  [i1.0 m0.0 r0.0 p0.0 t0.0] OK
+pointing_up          rot    90  point_right       -> point_right       1.00  [i1.0 m0.0 r0.0 p0.0 t0.0] OK
+pointing_up          rot   -90  point_left        -> point_left        1.00  [i1.0 m0.0 r0.0 p0.0 t0.0] OK
+pointing_up          rot   180  point_down        -> point_down        1.00  [i1.0 m0.0 r0.0 p0.0 t0.0] OK
+pointing_up          rot    45  point_up_right    -> point_up_right    1.00  [i1.0 m0.0 r0.0 p0.0 t0.0] OK
+pointing_up          rot   -45  point_up_left     -> point_up_left     1.00  [i1.0 m0.0 r0.0 p0.0 t0.0] OK
+pointing_up          rot   135  point_down_right  -> point_down_right  1.00  [i1.0 m0.0 r0.0 p0.0 t0.0] OK
+pointing_up          rot  -135  point_down_left   -> point_down_left   1.00  [i1.0 m0.0 r0.0 p0.0 t0.0] OK
+pointing_up_rotated  rot     0  point_right       -> point_right       1.00  [i1.0 m0.0 r0.0 p0.0 t0.0] OK
+left_hands           rot     0  open_palm         -> open_palm         1.00  [i1.0 m1.0 r1.0 p1.0 t1.0] OK
+left_hands           rot     0  open_palm         -> open_palm         1.00  [i1.0 m1.0 r1.0 p1.0 t1.0] OK
+right_hands          rot     0  open_palm         -> open_palm         1.00  [i1.0 m1.0 r1.0 p1.0 t1.0] OK
+right_hands          rot     0  open_palm         -> open_palm         1.00  [i1.0 m1.0 r1.0 p1.0 t1.0] OK
+left_hands_rotated   rot     0  open_palm         -> open_palm         1.00  [i1.0 m1.0 r1.0 p1.0 t1.0] OK
+left_hands_rotated   rot     0  open_palm         -> open_palm         1.00  [i1.0 m1.0 r1.0 p1.0 t1.0] OK
+right_hands_rotated  rot     0  open_palm         -> open_palm         1.00  [i1.0 m1.0 r1.0 p1.0 t1.0] OK
+right_hands_rotated  rot     0  open_palm         -> open_palm         1.00  [i1.0 m1.0 r1.0 p1.0 t1.0] OK
+== taught gestures: one example per hand, then that hand again, turned and shaky
+taught: 174/174 jittered hands (±10°, ±15% size, shaky joints) matched their own pose
+a scrambled non-hand matches nothing: OK
+mirror flip of a stored example: OK
+selftest: PASS
