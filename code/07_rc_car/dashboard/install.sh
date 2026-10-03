@@ -12,7 +12,7 @@
 # arm's — the car gets its OWN Nano (a Nano is one brain at a time).
 
 set -e
-SRC="$(cd "$(dirname "$0")" && pwd)"            # code/08_rc_car/dashboard
+SRC="$(cd "$(dirname "$0")" && pwd)"            # code/07_rc_car/dashboard
 MOD="$SRC/.."
 OPEC="$SRC/../../04_opencv"
 DEST="$HOME/Desktop/rc-dashboard"
@@ -54,7 +54,7 @@ cat > "$DEST/README.md" <<'EOF'
 # RC Color Pilot (:8081)
 
 6-color vision policy dashboard — Pi sees, Nano drives.
-Deployed copy of code/08_rc_car/dashboard from ZAN-Tech-bd/pi_workshop.
+Deployed copy of code/07_rc_car/dashboard from ZAN-Tech-bd/pi_workshop.
 Source of truth: the repo; re-run its install.sh to refresh this copy.
 
 Manual start : ./start.sh

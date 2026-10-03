@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Module 9 — Gesture Pilot dashboard (port 8083): your hand drives the car.
+"""Module 8 — Gesture Pilot dashboard (port 8083): your hand drives the car.
 
 The RC Color Pilot's sense–think–act loop, one step up: the camera finds a
 HAND (MediaPipe, 21 landmarks), the brain names the gesture (readable rules,

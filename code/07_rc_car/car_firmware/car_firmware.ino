@@ -1,4 +1,4 @@
-/* Module 8 — RC car firmware: the muscles (evolves the ZAN Tech RC-101 code).
+/* Module 7 — RC car firmware: the muscles (evolves the ZAN Tech RC-101 code).
  *
  * Same course rule as the arm: the Nano stays THIN. It accepts two protocols:
  *

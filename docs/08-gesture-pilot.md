@@ -1,4 +1,4 @@
-# Module 9 — Gesture Pilot: your hand drives the car
+# Module 8 — Gesture Pilot: your hand drives the car
 
 NEW project (module 8's car + module 6's gestures, one step up) · Result: show a hand
 gesture to the Pi camera and the ZAN TriBot drives. Teach it **your own** gestures in
@@ -6,7 +6,7 @@ seconds, and change what each one does, live, in a dashboard on **:8083**.
 
 ## The AI you are actually teaching (say these words)
 
-Module 8 tuned a classifier **by hand** (HSV thresholds). Here the classifier **learns
+Module 7 tuned a classifier **by hand** (HSV thresholds). Here the classifier **learns
 from examples you show it**, the step from rule-based AI to machine learning:
 
 | Stage | What happens here | AI vocabulary |
@@ -55,7 +55,7 @@ Two more speed tricks, both in `server.py`:
 ## Install
 
 ```bash
-cd ~/Desktop/pi_workshop/code/09_gesture_car/dashboard
+cd ~/Desktop/pi_workshop/code/08_gesture_car/dashboard
 bash install.sh                  # ~/Desktop/gesture-dashboard + venv (a few minutes once)
 sudo bash install.sh --service   # boot service gesture-dashboard on :8083
 ```

@@ -56,8 +56,7 @@ ACTIONS = {
 ```
 
 Want a third behavior? Add `"green"` to `RANGES` usage in `see()` and a `"green"` action —
-the state machine is generic. (Green is also what the PickBot finale uses, so it's a nice
-bridge to module 7.)
+the state machine is generic..
 
 ## 4. Testing procedure (do it in this order)
 

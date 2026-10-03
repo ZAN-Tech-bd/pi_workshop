@@ -1,4 +1,4 @@
-"""Module 9 — the gesture brain: 21 hand landmarks -> one named gesture.
+"""Module 8 — the gesture brain: 21 hand landmarks -> one named gesture.
 
 MediaPipe Hands gives 21 landmarks per hand (x, y in 0..1 of the picture, z a
 relative depth). This file turns them into a gesture with two kinds of

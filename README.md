@@ -16,11 +16,10 @@ Companion slide deck: *Pi to Robot Vision Workshop* (ZAN Tech BD).
 | 4 | OpenCV basics | [`code/04_opencv/`](code/04_opencv/) · [`docs/04-opencv.md`](docs/04-opencv.md) | 30–34 | Find a colored object's center | Color Hunter |
 | 5 | Example A: color → action | [`code/05_color_action/`](code/05_color_action/) · [`docs/05-color-action.md`](docs/05-color-action.md) | new | Red → arm action 1, blue → action 2 | — |
 | 6 | Example B: gesture → command | [`code/06_gestures/`](code/06_gestures/) · [`docs/06-gestures.md`](docs/06-gestures.md) | new | Fist/palm/pinch/point steer the arm | — |
-| 7 | PickBot finale | [`code/07_pickbot/`](code/07_pickbot/) · [`docs/07-pickbot.md`](docs/07-pickbot.md) | 35–41 | Full see→pick→place loop | 60-second relay |
-| 8 | RC Color Pilot | [`code/08_rc_car/`](code/08_rc_car/) · [`docs/08-rc-car.md`](docs/08-rc-car.md) | new | Vision-driven RC car: 6 colors → 6 directions + dashboard (:8081) | Color Rally |
-| 9 | Gesture Pilot | [`code/09_gesture_car/`](code/09_gesture_car/) · [`docs/09-gesture-pilot.md`](docs/09-gesture-pilot.md) | new | MediaPipe hand gestures drive the car; teach your own gestures + dashboard (:8083) | Gesture Slalom |
-| 10 | ZAN Pilot (LLM) | [`docs/10-zan-pilot-llm.md`](docs/10-zan-pilot-llm.md) | new | English → on-Pi qwen2.5:1.5b → intent JSON → car key (:8082) | Prompt Golf |
-| A | Arm Twin dashboard | [`docs/09-arm-dashboard.md`](docs/09-arm-dashboard.md) | new | 3D digital twin + controller for the arm (:8080) — appendix, not a module | — |
+| 7 | RC Color Pilot | [`code/07_rc_car/`](code/07_rc_car/) · [`docs/07-rc-car.md`](docs/07-rc-car.md) | new | Vision-driven RC car: 6 colors → 6 directions + dashboard (:8081) | Color Rally |
+| 8 | Gesture Pilot | [`code/08_gesture_car/`](code/08_gesture_car/) · [`docs/08-gesture-pilot.md`](docs/08-gesture-pilot.md) | new | MediaPipe hand gestures drive the car; teach your own gestures + dashboard (:8083) | Gesture Slalom |
+| 9 | ZAN Pilot (LLM) | [`docs/09-zan-pilot-llm.md`](docs/09-zan-pilot-llm.md) | new | English → on-Pi qwen2.5:1.5b → intent JSON → car key (:8082) | Prompt Golf |
+| A | Arm Twin dashboard | [`docs/appendix-arm-dashboard.md`](docs/appendix-arm-dashboard.md) | new | 3D digital twin + controller for the arm (:8080) — appendix, not a module | — |
 
 ## Kit list
 
@@ -53,8 +52,7 @@ libcamera/Picamera2. Every module's run transcript: [`verify/`](verify/). Re-ver
 end-to-end on 2026-10-01 with a **screenshot for every micro-step**:
 [`docs/images/`](docs/images/) — embedded at the matching steps of each module guide,
 raw transcripts in [`verify/session-2026-10-01/`](verify/session-2026-10-01/)
-(that session also caught and fixed a crash in `pickbot.py --simulate`, see
-[`docs/07-pickbot.md`](docs/07-pickbot.md)). Two bench findings worth knowing:
+Two bench findings worth knowing:
 
 - **mediapipe 1.x SIGILLs on the Pi 4's Cortex-A72** — the gesture module therefore
   ships a dependency-free OpenCV **glove engine** (default) plus the MediaPipe Tasks

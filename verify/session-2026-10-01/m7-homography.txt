@@ -1,6 +1,0 @@
-pixel (102,88) -> (80.0,-100.0) mm  expected (80,-100)  OK
-pixel (540,92) -> (80.0,100.0) mm  expected (80,100)  OK
-pixel (548,410) -> (230.0,100.0) mm  expected (230,100)  OK
-pixel (96,402) -> (230.0,-100.0) mm  expected (230,-100)  OK
-center -> (156.6,2.2) mm (should be ~(155,0))
-homography selftest: PASS

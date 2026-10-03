@@ -17,7 +17,7 @@
 # on a Pi 4, and it has no wheel for the system's Python 3.13 — uv fetches 3.12.
 
 set -e
-SRC="$(cd "$(dirname "$0")" && pwd)"            # code/09_gesture_car/dashboard
+SRC="$(cd "$(dirname "$0")" && pwd)"            # code/08_gesture_car/dashboard
 USER_HOME="$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)"
 RUN_AS="${SUDO_USER:-$USER}"
 DEST="$USER_HOME/Desktop/gesture-dashboard"
@@ -69,8 +69,8 @@ EOF
 as_user tee "$DEST/README.md" >/dev/null <<'EOF'
 # Gesture Pilot (:8083)
 
-MediaPipe hand gestures drive the ZAN TriBot — Module 9 of pi_workshop.
-Deployed copy of code/09_gesture_car/dashboard from ZAN-Tech-bd/pi_workshop.
+MediaPipe hand gestures drive the ZAN TriBot — Module 8 of pi_workshop.
+Deployed copy of code/08_gesture_car/dashboard from ZAN-Tech-bd/pi_workshop.
 Source of truth: the repo; re-run its install.sh to refresh this copy.
 
 Manual start : ./start.sh            (./start.sh --source demo  = no camera needed)

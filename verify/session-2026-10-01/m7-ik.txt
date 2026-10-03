@@ -1,9 +1,0 @@
-arm model: L1=100.0  L2=100.0  Z_BASE=60.0  (edit for YOUR kit)
-
-(100, 60,40) -> J,31,44,73  fk-check (100.6, 60.4, 40.4)  OK
-(120,-80,60) -> J,-34,44,92  fk-check (119.3, -80.4, 60.0)  OK
-( 60, 60,80) -> J,45,77,52  fk-check (60.4, 60.4, 79.7)  OK
-(199,  0,60) -> J,0,6,169  fk-check (199.1, 0.0, 61.7)  OK
-out-of-reach  (250,0,60) -> None   OK
-singularity   (0.5,0,60) -> None  OK
-ik selftest: PASS

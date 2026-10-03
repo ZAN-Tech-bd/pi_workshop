@@ -1,4 +1,4 @@
-# Module 10 — ZAN Pilot: an LLM drives the car (Stage 3)
+# Module 9 — ZAN Pilot: an LLM drives the car (Stage 3)
 
 The third pilot on the rig · Result: **you type English** — *"back up slowly"*
 — and a 1.5-billion-parameter language model running **on this Pi** turns it
@@ -88,4 +88,4 @@ Raw transcripts: [`verify/session-2026-10-03/`](../verify/session-2026-10-03/)
 4. Compare the three pilots side by side: same loop, three different "think"
    boxes — thresholds, keypoints, language.
 
-Related: [Module 8 — RC Color Pilot](08-rc-car.md) · [Module 9 — Gesture Pilot](09-gesture-pilot.md)
+Related: [Module 7 — RC Color Pilot](07-rc-car.md) · [Module 8 — Gesture Pilot](08-gesture-pilot.md)

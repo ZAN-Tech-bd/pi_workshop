@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Module 8 — RC Color Pilot dashboard (port 8081): sense, think, act.
+"""Module 7 — RC Color Pilot dashboard (port 8081): sense, think, act.
 
 The sense–think–act loop with pixel-level color segmentation, live in a browser:
 

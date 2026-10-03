@@ -17,13 +17,7 @@ screenshots in [`docs/images/`](../../docs/images/).
 | `m4-hsvtune.txt` | 4 | headless tuner stats, 0.5 s cadence |
 | `m5-selftest.txt` | 5 | red → action 1, blue → action 2, 18×`OK`, `selftest: PASS` |
 | `m6-selftest.txt` | 6 | classifier 4/4, four command sequences `OK`, `selftest: PASS` |
-| `m7-ik.txt` | 7 | IK↔FK round trip PASS; out-of-reach + singularity rejected |
-| `m7-homography.txt` | 7 | 4 corners exact; center ≈ (155,0) — PASS |
-| `m7-pickbot.txt` | 7 | **bug caught**: cube-less frame crashed the loop (`detect()` → `(None,0)` unpacked blindly) |
-| `m7-pickbot-fixed.txt` | 7 | after the fix: clean watch window, graceful `done — 0 cube(s) picked` |
-| `m7-pickbot-simrig.txt` | 7 | `pickbot_sim_rig.py` (fake camera, green square) → full loop ×5 — `done — 5 cube(s) picked` |
 
 The fix for the caught bug lives in
-[`code/07_pickbot/pickbot.py`](../../code/07_pickbot/pickbot.py) — the loop now
 treats `detect()`'s `(None, 0)` as "no cube this frame" and resets the
 stability counter, which was clearly the original intent.

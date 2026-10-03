@@ -1,6 +1,6 @@
 """The car link — the ZAN TriBot (ESP32 "ZAN_RC_Car") over Bluetooth.
 
-Same link as the RC Color Pilot (code/08_rc_car/dashboard/server.py), kept in
+Same link as the RC Color Pilot (code/07_rc_car/dashboard/server.py), kept in
 its own file here: F/B/L/R/G/I/H/J/S drive keys, 1-9 speed, q turbo, single
 characters over RFCOMM channel 1, NO handshake (never send PING: its I and G
 are drive keys). A /dev/ttyUSBn port still works when asked for explicitly.

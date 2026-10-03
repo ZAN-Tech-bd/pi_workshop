@@ -1,4 +1,4 @@
-"""Module 8 — Example: 6 colors -> 6 driving directions (RC car).
+"""Module 7 — Example: 6 colors -> 6 driving directions (RC car).
 
 AI vocabulary this project teaches (put it on the slide):
   sense-think-act agent · pixel-level color segmentation (a rule-based

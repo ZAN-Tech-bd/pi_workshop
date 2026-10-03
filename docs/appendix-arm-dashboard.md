@@ -82,7 +82,7 @@ module 3, now in a third layer.
 
 The Nano on the bench runs the **workshop** firmware, so modules 5–7 keep working
 unchanged — the wrist row stays greyed out in the twin. Flash the ZAN Tech
-firmware to drive the wrist, and re-flash the workshop one before the PickBot
+firmware to drive the wrist, and re-flash the workshop one before an arm
 modules. The dashboard detects which one is on the port at Connect time.
 
 ## Service commands
@@ -114,4 +114,4 @@ workshop firmware (`channels B S E G`), twin rendered with live TCP readouts
 RC dashboard's dry-mode fallback confirmed while this service held the port.
 Raw transcripts: [`verify/session-2026-10-02/`](../verify/session-2026-10-02/).
 
-Related: [Module 3 — the 4-DOF arm](03-arm.md) · [Module 8 — RC Color Pilot](08-rc-car.md)
+Related: [Module 3 — the 4-DOF arm](03-arm.md) · [Module 7 — RC Color Pilot](07-rc-car.md)

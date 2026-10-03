@@ -52,7 +52,7 @@ is deliberately thin — it only:
 4. **ramps** all four servos together, one degree per `STEP_MS` (15 ms) — smooth, no jumps
 5. answers **`OK`** only after the move completes, so the Pi can wait for it
 
-Because the Arduino stays dumb, every later module (color actions, gestures, PickBot)
+Because the Arduino stays dumb, every later module (color actions, gestures, the RC pilots)
 is just Python on the Pi — **no re-flashing while you tune**.
 
 ### Upload (our kit: CH340 Nano, old bootloader)

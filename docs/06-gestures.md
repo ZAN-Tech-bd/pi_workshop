@@ -101,4 +101,4 @@ mediapipe 1.x note: the old `mp.solutions` API is **gone** — 1.x uses the Task
 - Constraint-driven design: the Pi 4 CPU decided our engine — engineers adapt the plan
   to the hardware, not the other way around.
 
-Next: [Module 7 — PickBot: the full vision-guided arm](07-pickbot.md)
+Next: [Module 7 — RC Color Pilot: the vision-driven car](07-rc-car.md)

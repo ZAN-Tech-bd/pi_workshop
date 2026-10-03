@@ -1,4 +1,4 @@
-# Module 8 — RC Color Pilot: a vision-driven robot car
+# Module 7 — RC Color Pilot: a vision-driven robot car
 
 NEW project (RC Car 101 kit + everything from modules 1–7) · Result: show a colored
 card to the car's camera and it drives — 6 colors, 6 directions, live dashboard.
@@ -27,7 +27,7 @@ Arduino Nano (or Uno) · L298N motor driver · 4× DC motors + wheels · chassis
 battery pack · Raspberry Pi + camera mounted on the car (Pi powered by its own
 pack/bank).
 
-⚠️ A Nano is a one-role brain: the PickBot arm Nano runs arm firmware, the car Nano
+⚠️ A Nano is a one-role brain: the arm's Nano runs arm firmware, the car Nano
 runs car firmware. Two projects, two Nanos (or re-flash when you switch).
 
 ### Wiring (L298N → Arduino, from the RC-101 guide)
@@ -45,7 +45,7 @@ battery — never from the Arduino 5 V pin.
 
 ## Firmware — RC-101 evolved
 
-[`code/08_rc_car/car_firmware/car_firmware.ino`](../code/08_rc_car/car_firmware/car_firmware.ino)
+[`code/07_rc_car/car_firmware/car_firmware.ino`](../code/07_rc_car/car_firmware/car_firmware.ino)
 keeps everything from the RC-101 phone-app code (same `F B L R G I H J S 1-9 q` keys,
 same pins) and adds what a robot with a brain needs:
 
@@ -58,10 +58,10 @@ same pins) and adds what a robot with a brain needs:
 Upload (Pi USB; HC-05 unplugged if fitted — same warning as RC-101):
 
 ```bash
-scp -r code/08_rc_car pi@raspberrypi.local:workshop/
+scp -r code/07_rc_car pi@raspberrypi.local:workshop/
 ssh pi@raspberrypi.local
-~/.local/bin/arduino-cli compile --fqbn arduino:avr:nano:cpu=atmega328old ~/workshop/08_rc_car/car_firmware
-~/.local/bin/arduino-cli upload  -p /dev/ttyUSB0 --fqbn arduino:avr:nano:cpu=atmega328old ~/workshop/08_rc_car/car_firmware
+~/.local/bin/arduino-cli compile --fqbn arduino:avr:nano:cpu=atmega328old ~/workshop/07_rc_car/car_firmware
+~/.local/bin/arduino-cli upload  -p /dev/ttyUSB0 --fqbn arduino:avr:nano:cpu=atmega328old ~/workshop/07_rc_car/car_firmware
 ```
 
 Using the HC-05 phone app instead of the Pi? Set `BAUD 9600` in the sketch header.
@@ -81,7 +81,7 @@ Pi). Tune shades with module 4's `hsv_tune.py`; print a card set in these six co
 ## Run it
 
 ```bash
-cd ~/workshop/08_rc_car
+cd ~/workshop/07_rc_car
 python3 vision_drive.py --selftest     # 6/6 classifier + PING + all keys sent
 python3 vision_drive.py --dry-run      # camera in, commands printed
 python3 vision_drive.py                # live: cards drive the car
@@ -135,7 +135,7 @@ using the one that answers `OK`. Ports another program holds (the Arm Twin keeps
 arm's Nano) are skipped, and the car lamp's tooltip names them.
 
 Installed as `rc-dashboard.service` (auto-starts on boot), source of truth in
-[`code/08_rc_car/`](../code/08_rc_car/), deployed copy in `~/Desktop/rc-dashboard/`
+[`code/07_rc_car/`](../code/07_rc_car/), deployed copy in `~/Desktop/rc-dashboard/`
 (`dashboard/install.sh` refreshes it and keeps `data/`):
 
 ![rc-dashboard service](images/m8-01-service.png)
@@ -208,4 +208,4 @@ why as a class.)
 - A policy is a table; changing behavior is editing the table.
 - Fail-safes are what make autonomy safe enough to demo.
 
-Predecessors: [Module 7 — PickBot](07-pickbot.md) · [Module 4 — OpenCV](04-opencv.md)
+Predecessors: [Module 4 — OpenCV](04-opencv.md) · [Module 6 — gestures](06-gestures.md)
